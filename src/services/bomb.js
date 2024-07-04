@@ -3,15 +3,17 @@ import initialState from "../store/initialState";
 
 export const bombSlice = createSlice({
   name: "bomb",
-  initialState: initialState,
+  initialState,
   reducers: {
-    addEvent: (state, action) => {
+    setGameInfo: (state, action) => {
+      state.gameSetting = action.payload;
     },
-    removeEvent: (state, action) => {
-    }
+    toggleView: (state) => {
+      state.viewMode = state.viewMode === "entrance" ? "gameBoard" : "entrance";
+    },
   },
 });
 
-export const { addEvent, removeEvent } = bombSlice.actions;
+export const { setGameInfo, toggleView } = bombSlice.actions;
 
 export default bombSlice.reducer;
