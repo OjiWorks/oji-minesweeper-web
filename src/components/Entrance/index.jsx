@@ -1,10 +1,21 @@
 import { useDispatch } from "react-redux";
 import { setField, setGameInfo, toggleView } from "../../services/bomb";
 
+import UseNameInput from "./UserNameInput";
+import NumberInput from "./NumberInput";
+import DifficultySelect from "./DifficultySelect";
+import StartButton from "./StartButton";
+
 import convertToBombRate from "../utils/converToBombRate";
 import createUnderField from "../utils/createField";
 
 import logo from "../../assets/textlogo.png"
+
+const entranceStyle = {
+  bg: "fixed inset-0 flex flex-col items-center justify-center",
+  container: "flex flex-col justify-center items-center p-6 bg-slate-100 rounded-xl dark:bg-slate-400",
+  form: "flex flex-col items-center"
+};
 
 export default function Entrance() {
   const dispatch = useDispatch();
@@ -18,6 +29,7 @@ export default function Entrance() {
       column: +e.target[2].value,
       bombRate: convertToBombRate(e.target[3].value)
     };
+
     const underField = createUnderField(gameSetting.row, gameSetting.column, gameSetting.bombRate);
     const coverField = Array(gameSetting.column).fill(Array(gameSetting.row).fill("covered"));
 
@@ -27,31 +39,19 @@ export default function Entrance() {
   }
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center ">
-      <div className="flex flex-col justify-center items-center p-6 bg-slate-100 rounded-xl dark:bg-slate-400">
+    <div className={entranceStyle.bg}>
+      <div className={entranceStyle.container}>
         <img src={logo} />
-        <form onSubmit={handleGameStart} className="flex flex-col items-center">
+        <form onSubmit={handleGameStart} className={entranceStyle.form}>
+          <UseNameInput />
           <div className="my-3">
-            유저이름 <input type="text" defaultValue="의성짱짱맨" className="text-center" required />
+            <NumberInput type="가로" />
+            <NumberInput type="세로" />
+            <DifficultySelect />
           </div>
-          <div className="my-3">
-            가로
-            <input min="9" max="30" defaultValue="9" type="number" className="text-center" required />칸
-            세로
-            <input min="9" max="30" defaultValue="9" type="number" className="text-center" required />칸
-            <div className="my-3">
-              난이도
-              <select required>
-                <option>초급</option>
-                <option>중급</option>
-                <option>고급</option>
-              </select>
-            </div>
-          </div>
-          <button className="h-10 px-6 font-semibold rounded-md bg-black text-white" type="submit">게임시작</button>
+          <StartButton />
         </form>
       </div>
     </div>
-
   );
 }
