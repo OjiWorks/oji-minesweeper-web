@@ -19,10 +19,31 @@ export const bombSlice = createSlice({
       const { row, column, index } = action.payload;
 
       state.field.coverField[column][row] = buttonState[index];
-    }
+    },
+    openButton: (state, { payload: [column, row] }) => {
+      console.log("시작");
+      const field = state.field;
+
+      if (field.coverField[column][row] === "open"
+      || !field.coverField[column]?.[row]
+      || field.underField[column][row] === 9) return;
+
+      const aroundArray = [
+        [column - 1, row - 1], [column - 1, row], [column - 1, row + 1],
+        [column, row - 1], [column, row], [column, row + 1],
+        [column + 1, row - 1], [column + 1, row], [column + 1, row + 1]
+      ];
+
+      state.field.coverField[column][row] = "open";
+
+      aroundArray.forEach((neighbor) => {
+        console.log("재귀시작!");
+        openButton(neighbor);
+      });
+    },
   },
 });
 
-export const { setGameInfo, toggleView, setField, setButtonState } = bombSlice.actions;
+export const { setGameInfo, toggleView, setField, setButtonState, openButton } = bombSlice.actions;
 
 export default bombSlice.reducer;
