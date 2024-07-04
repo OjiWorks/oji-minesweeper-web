@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 
 import { openButton, setButtonState } from "../../services/bomb";
+import CongratsCard from "../CongratsCard";
 
 export default function GameField() {
   const field = useSelector(state => state.bomb.field);
