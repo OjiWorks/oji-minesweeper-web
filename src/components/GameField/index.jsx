@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 
 export default function GameField() {
-  const gameObj = useSelector(state => state.bomb.gameSetting);
-
+  const field = useSelector(state => state.bomb.field);
   return (
     <main>
       메인보드

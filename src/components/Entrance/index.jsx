@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
-import { setGameInfo, toggleView } from "../../services/bomb";
+import { setField, setGameInfo, toggleView } from "../../services/bomb";
+
+import convertToBombRate from "../utils/converToBombRate";
+import createUnderField from "../utils/createField";
 
 import logo from "../../assets/textlogo.png"
-import convertToBombRate from "../utils/converToBombRate";
 
 export default function Entrance() {
   const dispatch = useDispatch();
@@ -12,13 +14,16 @@ export default function Entrance() {
 
     const gameSetting = {
       userId: e.target[0].value,
-      row: e.target[1].value,
-      column: e.target[2].value,
+      row: +e.target[1].value,
+      column: +e.target[2].value,
       bombRate: convertToBombRate(e.target[3].value)
     };
+    const underField = createUnderField(gameSetting.row, gameSetting.column, gameSetting.bombRate);
+    const coverField = Array(gameSetting.column).fill(Array(gameSetting.row).fill("covered"));
 
     dispatch(toggleView());
     dispatch(setGameInfo(gameSetting));
+    dispatch(setField({ underField, coverField }));
   }
 
   return (

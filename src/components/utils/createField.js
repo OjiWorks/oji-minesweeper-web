@@ -1,15 +1,12 @@
-export default function positionBombs(row = 9, column = 9, bombRate = 0.12) {
+export default function createUnderField(row = 9, column = 9, bombRate = 0.12) {
   const bombCount = Math.floor(row * column * bombRate);
   const tempArray = [...Array(bombCount).fill(9), ...Array(row * column - bombCount).fill(0)];
   const field = [];
 
   tempArray.sort(() => Math.random() - 0.5);
 
-  let count = column;
-
-  while (count > 0) {
+  while (tempArray.length > 0) {
     field.push(tempArray.splice(0, row));
-    count--;
   }
 
   for (const col in field) {

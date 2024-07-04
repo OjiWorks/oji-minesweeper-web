@@ -11,9 +11,12 @@ export const bombSlice = createSlice({
     toggleView: (state) => {
       state.viewMode = state.viewMode === "entrance" ? "gameBoard" : "entrance";
     },
+    setField: (state, action) => {
+      state.field = action.payload;
+    }
   },
 });
 
-export const { setGameInfo, toggleView } = bombSlice.actions;
+export const { setGameInfo, toggleView, setField } = bombSlice.actions;
 
 export default bombSlice.reducer;
