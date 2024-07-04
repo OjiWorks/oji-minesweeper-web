@@ -13,10 +13,16 @@ export const bombSlice = createSlice({
     },
     setField: (state, action) => {
       state.field = action.payload;
+    },
+    setButtonState: (state, action) => {
+      const buttonState = ["covered", "flag", "question"];
+      const { row, column, index } = action.payload;
+
+      state.field.coverField[column][row] = buttonState[index];
     }
   },
 });
 
-export const { setGameInfo, toggleView, setField } = bombSlice.actions;
+export const { setGameInfo, toggleView, setField, setButtonState } = bombSlice.actions;
 
 export default bombSlice.reducer;
