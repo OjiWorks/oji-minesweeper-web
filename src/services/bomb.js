@@ -21,25 +21,35 @@ export const bombSlice = createSlice({
       state.field.coverField[column][row] = buttonState[index];
     },
     openButton: (state, { payload: [column, row] }) => {
-      console.log("시작");
       const field = state.field;
+      const stack = [[column, row]];
 
-      if (field.coverField[column][row] === "open"
-      || !field.coverField[column]?.[row]
-      || field.underField[column][row] === 9) return;
+      while (stack.length > 0) {
+        const [col, row] = stack.pop();
 
-      const aroundArray = [
-        [column - 1, row - 1], [column - 1, row], [column - 1, row + 1],
-        [column, row - 1], [column, row], [column, row + 1],
-        [column + 1, row - 1], [column + 1, row], [column + 1, row + 1]
-      ];
+        // 현재 위치가 열려 있거나 유효하지 않거나 지뢰인 경우 계속 진행
+        if (!field.coverField[col]?.[row]
+          || field.coverField[col][row] === "open"
+          || field.underField[col][row] === 9) continue;
 
-      state.field.coverField[column][row] = "open";
+        field.coverField[col][row] = "open";
 
-      aroundArray.forEach((neighbor) => {
-        console.log("재귀시작!");
-        openButton(neighbor);
-      });
+        const aroundArray = [
+          [col - 1, row - 1], [col - 1, row], [col - 1, row + 1],
+          [col, row - 1], [col, row + 1],
+          [col + 1, row - 1], [col + 1, row], [col + 1, row + 1]
+        ];
+
+        if (field.underField[col][row] === 0) {
+          aroundArray.forEach((neighbor) => {
+            const [nCol, nRow] = neighbor;
+            if (field.coverField[nCol]?.[nRow] !== "open" && field.underField[nCol]?.[nRow] !== 9) {
+              stack.push(neighbor);
+            }
+          });
+        }
+
+      }
     },
   },
 });
