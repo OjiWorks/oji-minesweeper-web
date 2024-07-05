@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import initialState from "../store/initialState";
+import getAround from "../utils/getAround";
+import { CELL_STATE, UNDER_STATE } from "../CONSTANTS";
 
 export const bombSlice = createSlice({
   name: "bomb",
@@ -21,8 +24,8 @@ export const bombSlice = createSlice({
       state.field = action.payload;
     },
     setButtonState: (state, action) => {
-      const buttonState = ["covered", "flag", "question"];
       const { row, column, index } = action.payload;
+      const buttonState = [CELL_STATE.COVERED, CELL_STATE.FLAG, CELL_STATE.QUESTION];
 
       state.field.coverField[column][row] = buttonState[index];
     },
@@ -33,24 +36,20 @@ export const bombSlice = createSlice({
       while (stack.length > 0) {
         const [col, row] = stack.pop();
 
-        // 현재 위치가 열려 있거나 유효하지 않거나 지뢰인 경우 계속 진행
         if (!field.coverField[col]?.[row]
-          || field.coverField[col][row] === "open"
+          || field.coverField[col][row] === CELL_STATE.OPEN
           || field.underField[col][row] === 9) continue;
 
-        field.coverField[col][row] = "open";
+        field.coverField[col][row] = CELL_STATE.OPEN;
 
-        const aroundArray = [
-          [col - 1, row - 1], [col - 1, row], [col - 1, row + 1],
-          [col, row - 1], [col, row + 1],
-          [col + 1, row - 1], [col + 1, row], [col + 1, row + 1]
-        ];
+        const aroundArray = getAround(col, row);
 
-        if (field.underField[col][row] === 0) {
+        if (field.underField[col][row] === UNDER_STATE.NONE) {
           aroundArray.forEach((neighbor) => {
             const [nCol, nRow] = neighbor;
 
-            if (field.coverField[nCol]?.[nRow] !== "open" && field.underField[nCol]?.[nRow] !== 9) {
+            if (field.coverField[nCol]?.[nRow] !== CELL_STATE.OPEN
+              && field.underField[nCol]?.[nRow] !== UNDER_STATE.BOMB) {
               stack.push(neighbor);
             }
           });
@@ -58,27 +57,29 @@ export const bombSlice = createSlice({
       }
     },
     openAroundButtons: (state, { payload: [column, row] }) => {
-      const aroundArray = [
-        [column - 1, row - 1], [column - 1, row], [column - 1, row + 1],
-        [column, row - 1], [column, row], [column, row + 1],
-        [column + 1, row - 1], [column + 1, row], [column + 1, row + 1]
-      ];
+      const aroundArray = getAround(column, row);
+
       const aroundFlagCount = aroundArray.reduce((flagCount, [column1, row1]) => {
-        if (state.field.coverField[column1]?.[row1] === "flag") {
+        if (state.field.coverField[column1]?.[row1] === CELL_STATE.FLAG) {
           return flagCount + 1;
         }
 
         return flagCount;
       }, 0)
 
-      if(!state.field.coverField[column]?.[row] || state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== aroundFlagCount) return;
+      if (!state.field.coverField[column]?.[row]
+        || state.field.coverField[column][row] !== CELL_STATE.OPEN
+        || state.field.underField[column][row] !== aroundFlagCount) return;
 
       aroundArray.forEach(([column, row]) => {
-        if (state.field.underField[column]?.[row] === 9) {
-          state.field.coverField[column][row] = "open";
+        if (state.field.coverField[column]?.[row] !== CELL_STATE.FLAG
+          && state.field.underField[column]?.[row] === UNDER_STATE.BOMB) {
+          state.field.coverField[column][row] = CELL_STATE.OPEN;
+          state.gameOver = true;
         }
 
-        if (state.field.coverField[column]?.[row] !== "flag" || state.field.coverField[column]?.[row] === "") {
+        if (state.field.coverField[column]?.[row] !== CELL_STATE.FLAG
+          || state.field.coverField[column]?.[row] === UNDER_STATE.NONE) {
           bombSlice.caseReducers.openButtons(state, { payload: [column, row] });
         }
       });
