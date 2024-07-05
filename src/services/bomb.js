@@ -20,7 +20,7 @@ export const bombSlice = createSlice({
 
       state.field.coverField[column][row] = buttonState[index];
     },
-    openButton: (state, { payload: [column, row] }) => {
+    openButtons: (state, { payload: [column, row] }) => {
       const field = state.field;
       const stack = [[column, row]];
 
@@ -43,17 +43,39 @@ export const bombSlice = createSlice({
         if (field.underField[col][row] === 0) {
           aroundArray.forEach((neighbor) => {
             const [nCol, nRow] = neighbor;
+
             if (field.coverField[nCol]?.[nRow] !== "open" && field.underField[nCol]?.[nRow] !== 9) {
               stack.push(neighbor);
             }
           });
         }
-
       }
+    },
+    openAroundButtons: (state, { payload: [column, row] }) => {
+      const aroundArray = [
+        [column - 1, row - 1], [column - 1, row], [column - 1, row + 1],
+        [column, row - 1], [column, row], [column, row + 1],
+        [column + 1, row - 1], [column + 1, row], [column + 1, row + 1]
+      ];
+      const arountFlagCount = aroundArray.reduce((flagCount, [column1, row1]) => {
+        if (state.field.coverField[column1][row1] === "flag") {
+          return flagCount + 1;
+        }
+
+        return flagCount;
+      }, 0)
+
+      if(state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== arountFlagCount) return;
+
+      aroundArray.forEach(([column, row]) => {
+        if (state.field.coverField[column][row] !== "flag" || state.field.coverField[column][row] === "") {
+          state.field.coverField[column][row] = "open"
+        }
+      });
     },
   },
 });
 
-export const { setGameInfo, toggleView, setField, setButtonState, openButton } = bombSlice.actions;
+export const { setGameInfo, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
 
 export default bombSlice.reducer;

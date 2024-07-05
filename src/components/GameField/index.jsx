@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { openButton, setButtonState } from "../../services/bomb";
+import { openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 import CongratsCard from "../CongratsCard";
 import gang1 from "../../assets/bombgang_1.png"
 
@@ -14,19 +14,28 @@ export default function GameField() {
     open: "w-10 h-10 text-xl bg-orange-200 border border-amber-500  text-center flex items-center justify-center shadow-inner font-semibold text-amber-900"
   }
 
-  function changeButtonContents(e, row, column, index) {
-    e.preventDefault();
+  function changeButtonContents(row, column, index) {
     dispatch(setButtonState({ row, column, index }));
   }
 
   function handleLeftClick(column, row) {
     if (field.underField[column][row] === 9) return alert("게임끝");
-    dispatch(openButton([column, row]));
+    dispatch(openButtons([column, row]));
+  }
+
+  function handleBothClick(e, column, row) {
+    const clickType = e.buttons;
+    const BOTH_CLICK = 3;
+
+    if (clickType === BOTH_CLICK) {
+      e.preventDefault();
+      dispatch(openAroundButtons([column, row]))
+    }
   }
 
   return (
     <div className="relative">
-      <main className="grid grid-cols-9 grid-rows-9 border-4 border-amber-800 shadow-lg rounded bg-amber-100">
+      <main onContextMenu={(e) => {e.preventDefault()}} className="grid grid-cols-9 grid-rows-9 border-4 border-amber-800 shadow-lg rounded bg-amber-100">
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
@@ -34,7 +43,7 @@ export default function GameField() {
                 return (
                   <button
                     onClick={() => handleLeftClick(column, row)}
-                    onContextMenu={(e) => changeButtonContents(e, row, column, 1)}
+                    onContextMenu={() => changeButtonContents(row, column, 1)}
                     className={theme.close}
                   ></button>
                 );
@@ -62,7 +71,8 @@ export default function GameField() {
               case "open":
                 return (
                   <div
-                    className={theme.open}
+                    onMouseDown={(e) => handleBothClick(e, column, row)}
+                  className={theme.open}
                   >
                     {field.underField[column][row] === 0 ? "" : field.underField[column][row]}
                   </div>
