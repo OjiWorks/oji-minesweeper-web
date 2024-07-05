@@ -6,6 +6,7 @@ import NumberInput from "./NumberInput";
 import DifficultySelect from "./DifficultySelect";
 import StartButton from "./StartButton";
 
+import { CELL_STATE } from "../../CONSTANTS/index";
 import convertToBombRate from "../../utils/converToBombRate";
 import createUnderField from "../../utils/createField";
 
@@ -31,7 +32,7 @@ export default function Entrance() {
     };
 
     const underField = createUnderField(gameSetting.row, gameSetting.column, gameSetting.bombRate);
-    const coverField = Array(gameSetting.column).fill(Array(gameSetting.row).fill("covered"));
+    const coverField = Array(gameSetting.column).fill(Array(gameSetting.row).fill(CELL_STATE.COVERED));
 
     dispatch(toggleView());
     dispatch(setGameInfo(gameSetting));

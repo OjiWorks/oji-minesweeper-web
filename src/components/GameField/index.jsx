@@ -61,6 +61,8 @@ export default function GameField() {
     const underField = createUnderField(row, column, bombRate);
     const coverField = Array(column).fill(Array(row).fill(CELL_STATE.COVERED));
 
+    console.log(underField, coverField)
+
     dispatch(setGameInfo({ userId, row, column, bombRate }));
     dispatch(setField({ underField, coverField }));
     setIsWin(false);
@@ -72,7 +74,7 @@ export default function GameField() {
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
-              case "covered":
+              case CELL_STATE.COVERED:
                 return (
                   <button
                     key={row + "-" + column}
@@ -82,7 +84,7 @@ export default function GameField() {
                   ></button>
                 );
 
-              case "flag":
+              case CELL_STATE.FLAG:
                 return (
                   <button
                     key={row + "-" + column}
@@ -93,7 +95,7 @@ export default function GameField() {
                   </button>
                 );
 
-              case "question":
+              case CELL_STATE.QUESTION:
                 return (
                   <button
                     key={row + "-" + column}
@@ -104,7 +106,7 @@ export default function GameField() {
                   </button>
                 );
 
-              case "open":
+              case CELL_STATE.OPEN:
                 return (
                   <div
                     key={row + "-" + column}
@@ -112,7 +114,7 @@ export default function GameField() {
                     className="custom-openButton"
                   >
                     {field.underField[column][row] === UNDER_STATE.NONE
-                      ? CELL_STATE.COVERED : field.underField[column][row]}
+                      ? "" : field.underField[column][row]}
                   </div>
                 );
             }
