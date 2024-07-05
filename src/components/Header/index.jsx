@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setTimer } from "../../services/bomb";
 
 export default function Header() {
   const { row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
-  const [timer, setTimer] = useState(0);
+  const isGameEnd = useSelector(state => state.bomb.gameOver);
+  const timer = useSelector(state => state.bomb.timer.timeCount);
   const coverField = useSelector(state => state.bomb.field.coverField);
+  const dispatch = useDispatch();
   let count = 0;
 
   coverField?.forEach(x => (x?.forEach(y => { if (y === "flag") { count++ } })));
 
   useEffect(() => {
     const timeId = setInterval(() => {
-      setTimer(timer + 1);
+      dispatch(setTimer());
     }, 1000);
 
+    if (isGameEnd) {
+      clearInterval(timeId);
+    }
+
     return (() => clearInterval(timeId));
-  }, [timer]);
+  }, [timer, isGameEnd]);
+
 
   return (
     <header className="md:flex flex flex-row justify-center items-center m-4">

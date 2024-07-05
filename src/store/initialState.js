@@ -8,7 +8,12 @@ const initialState = {
   field: {
     coverField: [],
     underField: []
-  }
+  },
+  timer: {
+    timeId: 0,
+    timeCount: 0,
+  },
+  gameOver: false,
 };
 
 export default initialState;

@@ -6,8 +6,8 @@ import NumberInput from "./NumberInput";
 import DifficultySelect from "./DifficultySelect";
 import StartButton from "./StartButton";
 
-import convertToBombRate from "../utils/converToBombRate";
-import createUnderField from "../utils/createField";
+import convertToBombRate from "../../utils/converToBombRate";
+import createUnderField from "../../utils/createField";
 
 import logo from "../../assets/textlogo.png"
 

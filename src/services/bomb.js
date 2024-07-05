@@ -8,6 +8,12 @@ export const bombSlice = createSlice({
     setGameInfo: (state, action) => {
       state.gameSetting = action.payload;
     },
+    setTimer: (state) => {
+      state.timer.timeCount++;
+    },
+    isGameEnd: (state) => {
+      state.gameOver = true;
+    },
     toggleView: (state) => {
       state.viewMode = state.viewMode === "entrance" ? "gameBoard" : "entrance";
     },
@@ -64,7 +70,7 @@ export const bombSlice = createSlice({
 
         return flagCount;
       }, 0)
-console.dir(bombSlice.caseReducers);
+
       if(state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== arountFlagCount) return;
 
       aroundArray.forEach(([column, row]) => {
@@ -76,6 +82,6 @@ console.dir(bombSlice.caseReducers);
   },
 });
 
-export const { setGameInfo, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
+export const { setGameInfo, setTimer, isGameEnd, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
 
 export default bombSlice.reducer;

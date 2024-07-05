@@ -1,12 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
+import { createPortal } from "react-dom";
 
-import { openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
+import { isGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 import CongratsCard from "../CongratsCard";
 import gang1 from "../../assets/bombgang_1.png"
+import GameOver from "../GameOver";
+import { useState } from "react";
 
 export default function GameField() {
+  const gameOver = useSelector(state => state.bomb.gameOver);
   const field = useSelector(state => state.bomb.field);
-  const { row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
+  const { timeId, timeCount } = useSelector(state => state.bomb.timer);
   const dispatch = useDispatch();
 
   function changeButtonContents(row, column, index) {
@@ -14,7 +18,10 @@ export default function GameField() {
   }
 
   function handleLeftClick(column, row) {
-    if (field.underField[column][row] === 9) return alert("게임끝");
+    if (field.underField[column][row] === 9) {
+      dispatch(isGameEnd());
+    };
+
     dispatch(openButtons([column, row]));
   }
 
@@ -37,6 +44,7 @@ export default function GameField() {
               case "covered":
                 return (
                   <button
+                    key={row + "-" + column}
                     onClick={() => handleLeftClick(column, row)}
                     onContextMenu={() => changeButtonContents(row, column, 1)}
                     className="custom-closeButton"
@@ -46,6 +54,7 @@ export default function GameField() {
               case "flag":
                 return (
                   <button
+                    key={row + "-" + column}
                     onContextMenu={() => changeButtonContents(row, column, 2)}
                     className="custom-closeButton"
                   >
@@ -56,6 +65,7 @@ export default function GameField() {
               case "question":
                 return (
                   <button
+                    key={row + "-" + column}
                     onContextMenu={() => changeButtonContents(row, column, 0)}
                     className="custom-closeButton"
                   >
@@ -66,6 +76,7 @@ export default function GameField() {
               case "open":
                 return (
                   <div
+                    key={row + "-" + column}
                     onMouseDown={(e) => handleBothClick(e, column, row)}
                     className="custom-openButton"
                   >
@@ -76,6 +87,10 @@ export default function GameField() {
           });
         })}
       </main>
+      {gameOver && createPortal(
+            <GameOver />,
+            document.body
+          )}
       <img src={gang1} width="200px" className="absolute bottom-0 -right-[200px]" />
     </div>
   );
