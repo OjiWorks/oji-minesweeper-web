@@ -9,13 +9,14 @@ import CongratsMessage from "../CongratsMessage";
 import createUnderField from "../../utils/createField";
 
 import { setGameInfo, setField } from "../../services/bomb";
-import { isGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
+import { setIsGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 
 import gang1 from "../../assets/bombgang_1.png";
+import { CELL_STATE, UNDER_STATE } from "../../CONSTANTS";
 
 export default function GameField() {
   const [isWin, setIsWin] = useState(false);
-  const gameOver = useSelector(state => state.bomb.gameOver);
+  const isGameEnd = useSelector(state => state.bomb.isGameEnd);
   const field = useSelector(state => state.bomb.field);
   const { userId, row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
   const bombCount = Math.floor(row * column * bombRate);
@@ -27,8 +28,8 @@ export default function GameField() {
   }
 
   function handleLeftClick(column, row) {
-    if (field.underField[column][row] === 9) {
-      dispatch(isGameEnd());
+    if (field.underField[column][row] === UNDER_STATE.BOMB) {
+      dispatch(setIsGameEnd());
     };
 
     dispatch(openButtons([column, row]));
@@ -40,21 +41,25 @@ export default function GameField() {
 
     if (clickType === BOTH_CLICK) {
       e.preventDefault();
-      dispatch(openAroundButtons([column, row]))
+      dispatch(openAroundButtons([column, row]));
     }
   }
 
   useEffect(() => {
-    field.coverField?.forEach(x => (x?.forEach(y => { if (y === "open") { openCount++ } })));
+    field.coverField?.forEach(columns => (columns?.forEach(row => { if (row === CELL_STATE.OPEN) openCount++; })));
 
     if (bombCount === (row * column) - openCount) {
       setIsWin(true);
+    }
+
+    if (isWin) {
+      dispatch(setIsGameEnd());
     }
   });
 
   function handleReplay() {
     const underField = createUnderField(row, column, bombRate);
-    const coverField = Array(column).fill(Array(row).fill("covered"));
+    const coverField = Array(column).fill(Array(row).fill(CELL_STATE.COVERED));
 
     dispatch(setGameInfo({ userId, row, column, bombRate }));
     dispatch(setField({ underField, coverField }));
@@ -106,14 +111,15 @@ export default function GameField() {
                     onMouseDown={(e) => handleBothClick(e, column, row)}
                     className="custom-openButton"
                   >
-                    {field.underField[column][row] === 0 ? "" : field.underField[column][row]}
+                    {field.underField[column][row] === UNDER_STATE.NONE
+                      ? CELL_STATE.COVERED : field.underField[column][row]}
                   </div>
                 );
             }
           });
         })}
       </main>
-      {gameOver && createPortal(
+      {(!isWin && isGameEnd) && createPortal(
         <GameOver />,
         document.body
       )}

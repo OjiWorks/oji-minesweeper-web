@@ -7,5 +7,5 @@ export const CELL_STATE = {
 
 export const UNDER_STATE = {
   NONE: 0,
-  BOMB: 9
+  BOMB: "💣"
 };
