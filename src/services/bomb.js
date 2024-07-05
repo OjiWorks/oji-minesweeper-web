@@ -14,8 +14,8 @@ export const bombSlice = createSlice({
     setTimer: (state) => {
       state.timer.timeCount++;
     },
-    isGameEnd: (state) => {
-      state.gameOver = true;
+    setIsGameEnd: (state) => {
+      state.isGameEnd = true;
     },
     toggleView: (state) => {
       state.viewMode = state.viewMode === "entrance" ? "gameBoard" : "entrance";
@@ -38,7 +38,7 @@ export const bombSlice = createSlice({
 
         if (!field.coverField[col]?.[row]
           || field.coverField[col][row] === CELL_STATE.OPEN
-          || field.underField[col][row] === 9) continue;
+          || field.underField[col][row] === UNDER_STATE.BOMB) continue;
 
         field.coverField[col][row] = CELL_STATE.OPEN;
 
@@ -75,7 +75,7 @@ export const bombSlice = createSlice({
         if (state.field.coverField[column]?.[row] !== CELL_STATE.FLAG
           && state.field.underField[column]?.[row] === UNDER_STATE.BOMB) {
           state.field.coverField[column][row] = CELL_STATE.OPEN;
-          state.gameOver = true;
+          state.isGameEnd = true;
         }
 
         if (state.field.coverField[column]?.[row] !== CELL_STATE.FLAG
@@ -87,6 +87,6 @@ export const bombSlice = createSlice({
   },
 });
 
-export const { setGameInfo, setTimer, isGameEnd, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
+export const { setGameInfo, setTimer, setIsGameEnd, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
 
 export default bombSlice.reducer;

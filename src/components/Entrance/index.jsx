@@ -9,7 +9,7 @@ import StartButton from "./StartButton";
 import convertToBombRate from "../../utils/converToBombRate";
 import createUnderField from "../../utils/createField";
 
-import logo from "../../assets/textlogo.png"
+import logo from "../../assets/textlogo.png";
 
 const entranceStyle = {
   bg: "fixed inset-0 flex flex-col items-center justify-center",

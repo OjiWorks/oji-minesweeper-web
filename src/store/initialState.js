@@ -1,5 +1,3 @@
-import bomb from "../services/bomb";
-
 const initialState = {
   gameSetting: {
     userId: "",
@@ -16,7 +14,7 @@ const initialState = {
     timeId: 0,
     timeCount: 0,
   },
-  gameOver: false,
+  isGameEnd: false,
 };
 
 export default initialState;

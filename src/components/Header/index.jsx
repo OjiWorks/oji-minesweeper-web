@@ -5,7 +5,7 @@ import { setTimer } from "../../services/bomb";
 
 export default function Header() {
   const { row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
-  const isGameEnd = useSelector(state => state.bomb.gameOver);
+  const isGameEnd = useSelector(state => state.bomb.isGameEnd);
   const timer = useSelector(state => state.bomb.timer.timeCount);
   const coverField = useSelector(state => state.bomb.field.coverField);
   const dispatch = useDispatch();
