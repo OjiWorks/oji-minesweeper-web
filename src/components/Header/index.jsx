@@ -19,13 +19,13 @@ export default function Header() {
 
   return (
     <header className="md:flex flex flex-row justify-center items-center m-4">
-      <div className="m-4 w-[240px] text-lg px-2 py-1 bg-amber-300 text-gray-900 font-semibold rounded shadow">
+      <div className="m-4 w-[250px] text-xl px-3 py-2 bg-amber-300 text-gray-900 rounded shadow">
         폭탄수 : {Math.floor(row * column * bombRate)}
       </div>
-      <div className="m-4 w-[240px] text-lg px-2 py-1 bg-amber-400 text-gray-900 font-semibold rounded shadow">
+      <div className="m-4 w-[250px] text-xl px-3 py-2 bg-amber-400 text-gray-900 rounded shadow">
         깃발갯수 : {count}
       </div>
-      <div className="m-4 w-[240px] text-lg px-2 py-1 bg-amber-500 text-gray-900 font-semibold rounded shadow">
+      <div className="m-4 w-[250px] text-xl px-3 py-2 bg-amber-500 text-gray-900 rounded shadow">
         시간 : {timer}
       </div>
     </header>

@@ -41,12 +41,12 @@ export default function Entrance() {
   return (
     <div className={entranceStyle.bg}>
       <div className={entranceStyle.container}>
-        <img src={logo} />
+        <img src={logo} className="my-4" />
         <form onSubmit={handleGameStart} className={entranceStyle.form}>
           <UseNameInput />
           <div className="my-3">
-            <NumberInput type="가로" />
-            <NumberInput type="세로" />
+            <NumberInput type="가로 " />
+            <NumberInput type="세로 " />
             <DifficultySelect />
           </div>
           <StartButton />

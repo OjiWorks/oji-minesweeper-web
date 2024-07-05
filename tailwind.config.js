@@ -2,8 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        DungGeunMo: ["DungGeunMo", "sans-serif"],
+      },
+    },
   },
   plugins: [],
-}
-
+};
