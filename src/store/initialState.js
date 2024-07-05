@@ -1,8 +1,11 @@
+import bomb from "../services/bomb";
+
 const initialState = {
   gameSetting: {
     userId: "",
     row: 0,
     column: 0,
+    bombRate: 0
   },
   viewMode: "entrance",
   field: {

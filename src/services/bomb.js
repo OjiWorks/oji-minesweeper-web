@@ -63,18 +63,18 @@ export const bombSlice = createSlice({
         [column, row - 1], [column, row], [column, row + 1],
         [column + 1, row - 1], [column + 1, row], [column + 1, row + 1]
       ];
-      const arountFlagCount = aroundArray.reduce((flagCount, [column1, row1]) => {
-        if (state.field.coverField[column1][row1] === "flag") {
+      const aroundFlagCount = aroundArray.reduce((flagCount, [column1, row1]) => {
+        if (state.field.coverField[column1]?.[row1] === "flag") {
           return flagCount + 1;
         }
 
         return flagCount;
       }, 0)
 
-      if(state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== arountFlagCount) return;
+      if(!state.field.coverField[column]?.[row] || state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== aroundFlagCount) return;
 
       aroundArray.forEach(([column, row]) => {
-        if (state.field.coverField[column][row] !== "flag" || state.field.coverField[column][row] === "") {
+        if (state.field.coverField[column]?.[row] !== "flag" || state.field.coverField[column]?.[row] === "") {
           bombSlice.caseReducers.openButtons(state, { payload: [column, row] });
         }
       });
