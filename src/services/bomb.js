@@ -64,12 +64,12 @@ export const bombSlice = createSlice({
 
         return flagCount;
       }, 0)
-
+console.dir(bombSlice.caseReducers);
       if(state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== arountFlagCount) return;
 
       aroundArray.forEach(([column, row]) => {
         if (state.field.coverField[column][row] !== "flag" || state.field.coverField[column][row] === "") {
-          state.field.coverField[column][row] = "open"
+          bombSlice.caseReducers.openButtons(state, { payload: [column, row] });
         }
       });
     },

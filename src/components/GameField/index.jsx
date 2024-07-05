@@ -51,7 +51,7 @@ export default function GameField() {
               case "flag":
                 return (
                   <button
-                    onContextMenu={(e) => changeButtonContents(e, row, column, 2)}
+                    onContextMenu={() => changeButtonContents(row, column, 2)}
                     className={theme.close}
                   >
                     🚩
@@ -61,7 +61,7 @@ export default function GameField() {
               case "question":
                 return (
                   <button
-                    onContextMenu={(e) => changeButtonContents(e, row, column, 0)}
+                    onContextMenu={() => changeButtonContents(row, column, 0)}
                     className={theme.close}
                   >
                     ?
