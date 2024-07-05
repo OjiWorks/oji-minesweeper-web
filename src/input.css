@@ -22,3 +22,7 @@
 .custom-openButton {
   @apply w-10 h-10 text-xl bg-orange-200 border border-amber-500  text-center flex items-center justify-center shadow-inner font-semibold text-amber-900 cursor-default;
 }
+
+.custom-blackButton {
+  @apply z-10 h-10 px-6 font-semibold rounded-md bg-black hover:bg-red-900 text-white;
+}
