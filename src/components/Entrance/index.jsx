@@ -13,7 +13,7 @@ import logo from "../../assets/textlogo.png"
 
 const entranceStyle = {
   bg: "fixed inset-0 flex flex-col items-center justify-center",
-  container: "flex flex-col justify-center items-center p-6 bg-slate-100 rounded-xl dark:bg-slate-400",
+  container: "flex flex-col justify-center items-center p-6 bg-orange-200 rounded-xl dark:bg-slate-400",
   form: "flex flex-col items-center"
 };
 

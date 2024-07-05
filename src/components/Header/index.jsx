@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 export default function Header() {
   const { row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
-  const field = useSelector(state => state.bomb.field);
   const [timer, setTimer] = useState(0);
   const coverField = useSelector(state => state.bomb.field.coverField);
   let count = 0;
@@ -19,14 +18,14 @@ export default function Header() {
   }, [timer]);
 
   return (
-    <header className="md:flex flex flex-row justify-center items-center">
-      <div className="m-4 w-[200px] bg-blue-300">
+    <header className="md:flex flex flex-row justify-center items-center m-4">
+      <div className="m-4 w-[240px] text-lg px-2 py-1 bg-amber-300 text-gray-900 font-semibold rounded shadow">
         폭탄수 : {Math.floor(row * column * bombRate)}
       </div>
-      <div className="m-4 w-[200px] bg-orange-300">
+      <div className="m-4 w-[240px] text-lg px-2 py-1 bg-amber-400 text-gray-900 font-semibold rounded shadow">
         깃발갯수 : {count}
       </div>
-      <div className="m-4 w-[200px] bg-red-400">
+      <div className="m-4 w-[240px] text-lg px-2 py-1 bg-amber-500 text-gray-900 font-semibold rounded shadow">
         시간 : {timer}
       </div>
     </header>
