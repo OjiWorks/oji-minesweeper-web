@@ -12,7 +12,7 @@ import { setGameInfo, setField } from "../../services/bomb";
 import { setIsGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 
 import gang1 from "../../assets/bombgang_1.png";
-import { CELL_STATE, UNDER_STATE } from "../../CONSTANTS";
+import { CELL_STATE, GRID_COLS, GRID_ROWS, UNDER_STATE } from "../../CONSTANTS";
 
 export default function GameField() {
   const [isWin, setIsWin] = useState(false);
@@ -70,7 +70,7 @@ export default function GameField() {
 
   return (
     <div className="relative">
-      <main onContextMenu={(e) => { e.preventDefault() }} className="grid grid-cols-30 grid-rows-30 border-4 border-amber-800 shadow-lg rounded bg-amber-100">
+      <main onContextMenu={(e) => { e.preventDefault() }} className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} border-4 border-amber-800 shadow-lg rounded bg-amber-100`}>
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
