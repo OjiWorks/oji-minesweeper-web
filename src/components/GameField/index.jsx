@@ -7,16 +7,16 @@ import CongratsCard from "../CongratsCard";
 
 import { isGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 
-import gang1 from "../../assets/bombgang_1.png"
+import gang1 from "../../assets/bombgang_1.png";
 
 export default function GameField() {
   const [isWin, setIsWin] = useState(false);
   const gameOver = useSelector(state => state.bomb.gameOver);
   const field = useSelector(state => state.bomb.field);
-  const { userId, row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
+  const { row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
   const bombCount = Math.floor(row * column * bombRate);
   const dispatch = useDispatch();
-  let Opencount = 0;
+  let openCount = 0;
 
   function changeButtonContents(row, column, index) {
     dispatch(setButtonState({ row, column, index }));
@@ -41,14 +41,10 @@ export default function GameField() {
   }
 
   useEffect(() => {
-    field.coverField?.forEach(x => (x?.forEach(y => { if (y === "open") { Opencount++ } })));
+    field.coverField?.forEach(x => (x?.forEach(y => { if (y === "open") { openCount++ } })));
 
-    if (bombCount === (row * column) - Opencount) {
+    if (bombCount === (row * column) - openCount) {
       setIsWin(true);
-    }
-
-    if (isWin) {
-      alert("승리");
     }
   });
 
@@ -105,10 +101,14 @@ export default function GameField() {
         })}
       </main>
       {gameOver && createPortal(
-            <GameOver />,
-            document.body
-          )}
+        <GameOver />,
+        document.body
+      )}
       <img src={gang1} width="200px" className="absolute bottom-0 -right-[200px]" />
+      {isWin && createPortal(
+        <CongratsCard />,
+        document.body
+      )}
     </div>
   );
 }

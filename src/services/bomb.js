@@ -74,6 +74,10 @@ export const bombSlice = createSlice({
       if(!state.field.coverField[column]?.[row] || state.field.coverField[column][row] !== "open" || state.field.underField[column][row] !== aroundFlagCount) return;
 
       aroundArray.forEach(([column, row]) => {
+        if (state.field.underField[column]?.[row] === 9) {
+          state.field.coverField[column][row] = "open";
+        }
+
         if (state.field.coverField[column]?.[row] !== "flag" || state.field.coverField[column]?.[row] === "") {
           bombSlice.caseReducers.openButtons(state, { payload: [column, row] });
         }

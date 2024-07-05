@@ -5,7 +5,7 @@ const entranceStyle = {
 export default function StartButton() {
   return (
     <button className={entranceStyle.button} type="submit">
-    게임시작
-  </button>
+      게임시작
+    </button>
   );
 }

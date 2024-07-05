@@ -1,4 +1,4 @@
-export default function createUnderField(row = 9, column = 9, bombRate = 0.12) {
+export default function createUnderField(row = 9, column = 9, bombRate = 0.05) {
   const bombCount = Math.floor(row * column * bombRate);
   const tempArray = [...Array(bombCount).fill(9), ...Array(row * column - bombCount).fill(0)];
   const field = [];
