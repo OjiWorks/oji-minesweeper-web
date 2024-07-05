@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'DungGeunMo';
   src: url('../src/assets/font/DungGeunMo.woff') format("woff");
@@ -5,12 +9,16 @@
   font-style: normal;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
   body {
     @apply font-DungGeunMo;
   }
+}
+
+.custom-closeButton {
+  @apply w-10 h-10 text-xl bg-gradient-to-br from-amber-500 to-amber-700 border border-amber-700 shadow-md transition-all duration-200 ease-in-out transform hover:from-amber-700 hover:to-amber-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-opacity-50;
+}
+
+.custom-openButton {
+  @apply w-10 h-10 text-xl bg-orange-200 border border-amber-500  text-center flex items-center justify-center shadow-inner font-semibold text-amber-900 cursor-default;
 }
