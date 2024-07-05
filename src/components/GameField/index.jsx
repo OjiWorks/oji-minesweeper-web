@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import GameOver from "../GameOver";
 import CongratsCard from "../CongratsCard";
 
+import createUnderField from "../../utils/createField";
+
+import { setGameInfo, setField } from "../../services/bomb";
 import { isGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 
 import gang1 from "../../assets/bombgang_1.png";
@@ -13,7 +16,7 @@ export default function GameField() {
   const [isWin, setIsWin] = useState(false);
   const gameOver = useSelector(state => state.bomb.gameOver);
   const field = useSelector(state => state.bomb.field);
-  const { row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
+  const { userId, row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
   const bombCount = Math.floor(row * column * bombRate);
   const dispatch = useDispatch();
   let openCount = 0;
@@ -47,6 +50,15 @@ export default function GameField() {
       setIsWin(true);
     }
   });
+
+  function handleReplay() {
+    const underField = createUnderField(row, column, bombRate);
+    const coverField = Array(column).fill(Array(row).fill("covered"));
+
+    dispatch(setGameInfo({ userId, row, column, bombRate }));
+    dispatch(setField({ underField, coverField }));
+    setIsWin(false);
+  }
 
   return (
     <div className="relative">
@@ -110,8 +122,11 @@ export default function GameField() {
         document.body
       )}
       <div className="absolute top-3 -right-[210px] flex flex-col">
-        <button className="custom-blackButton mb-4 top-1/2 transform -translate-x-1/2  left-1/2">다시하기</button>
-        <button className="custom-blackButton top-1/2 transform -translate-x-1/2  left-1/2">메인으로</button>
+        <button className="custom-blackButton mb-4 top-1/2 transform -translate-x-1/2 left-1/2"
+          onClick={() => handleReplay()}>다시하기</button>
+        <button
+          className="custom-blackButton top-1/2 transform -translate-x-1/2 left-1/2"
+          onClick={() => location.reload(true)}>메인으로</button>
       </div>
     </div>
   );
