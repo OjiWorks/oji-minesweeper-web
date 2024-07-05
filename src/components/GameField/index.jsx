@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import GameOver from "../GameOver";
 import CongratsCard from "../CongratsCard";
+import CongratsMessage from "../CongratsMessage";
 
 import createUnderField from "../../utils/createField";
 
@@ -121,13 +122,16 @@ export default function GameField() {
         <CongratsCard />,
         document.body
       )}
-      <div className="absolute top-3 -right-[210px] flex flex-col">
-        <button className="custom-blackButton mb-4 top-1/2 transform -translate-x-1/2 left-1/2"
+      <div className="absolute transform -translate-y-1/2  top-1/2 -left-[100px] flex flex-col">
+        <button className="custom-blackButton mb-10 top-1/2 transform -translate-x-1/2 left-1/2"
           onClick={() => handleReplay()}>다시하기</button>
         <button
           className="custom-blackButton top-1/2 transform -translate-x-1/2 left-1/2"
           onClick={() => location.reload(true)}>메인으로</button>
       </div>
+      {isWin ? (
+        <CongratsMessage />
+      ) : null}
     </div>
   );
 }
