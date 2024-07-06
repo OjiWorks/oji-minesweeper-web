@@ -8,7 +8,7 @@ import CongratsMessage from "../CongratsMessage";
 
 import createUnderField from "../../utils/createField";
 
-import { setGameInfo, setField } from "../../services/bomb";
+import { setGameInfo, setField, setTimerReset } from "../../services/bomb";
 import { setIsGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
 
 import gang1 from "../../assets/bombgang_1.png";
@@ -29,7 +29,7 @@ export default function GameField() {
 
   function handleLeftClick(column, row) {
     if (field.underField[column][row] === UNDER_STATE.BOMB) {
-      dispatch(setIsGameEnd());
+      dispatch(setIsGameEnd(true));
     };
 
     dispatch(openButtons([column, row]));
@@ -53,7 +53,7 @@ export default function GameField() {
     }
 
     if (isWin) {
-      dispatch(setIsGameEnd());
+      dispatch(setIsGameEnd(true));
     }
   });
 
@@ -61,10 +61,10 @@ export default function GameField() {
     const underField = createUnderField(row, column, bombRate);
     const coverField = Array(column).fill(Array(row).fill(CELL_STATE.COVERED));
 
-    console.log(underField, coverField)
-
     dispatch(setGameInfo({ userId, row, column, bombRate }));
     dispatch(setField({ underField, coverField }));
+    dispatch(setIsGameEnd(false));
+    dispatch(setTimerReset());
     setIsWin(false);
   }
 
@@ -131,10 +131,10 @@ export default function GameField() {
         document.body
       )}
       <div className="absolute transform -translate-y-1/2  top-1/2 -left-[100px] flex flex-col">
-        <button className="custom-blackButton mb-10 top-1/2 transform -translate-x-1/2 left-1/2"
-          onClick={() => handleReplay()}>다시하기</button>
+        <button className="custom-blackButton mb-10 top-1/2 transform -translate-x-1/2 left-1/2 z-50"
+          onClick={() => handleReplay(false)}>다시하기</button>
         <button
-          className="custom-blackButton top-1/2 transform -translate-x-1/2 left-1/2"
+          className="custom-blackButton top-1/2 transform -translate-x-1/2 left-1/2 z-50"
           onClick={() => location.reload(true)}>메인으로</button>
       </div>
       {isWin ? (
