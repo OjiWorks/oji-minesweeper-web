@@ -11,11 +11,14 @@ export const bombSlice = createSlice({
     setGameInfo: (state, action) => {
       state.gameSetting = action.payload;
     },
+    setTimerReset: (state) => {
+      state.timer.timeCount = 0;
+    },
     setTimer: (state) => {
       state.timer.timeCount++;
     },
-    setIsGameEnd: (state) => {
-      state.isGameEnd = true;
+    setIsGameEnd: (state, action) => {
+      state.isGameEnd = action.payload;
     },
     toggleView: (state) => {
       state.viewMode = state.viewMode === "entrance" ? "gameBoard" : "entrance";
@@ -31,29 +34,24 @@ export const bombSlice = createSlice({
     },
     openButtons: (state, { payload: [column, row] }) => {
       const field = state.field;
-      const stack = [[column, row]];
 
-      while (stack.length > 0) {
-        const [col, row] = stack.pop();
+      if (!field.coverField[column]?.[row]
+        || field.coverField[column][row] === CELL_STATE.OPEN
+        || field.underField[column][row] === UNDER_STATE.BOMB) return;
 
-        if (!field.coverField[col]?.[row]
-          || field.coverField[col][row] === CELL_STATE.OPEN
-          || field.underField[col][row] === UNDER_STATE.BOMB) continue;
+      field.coverField[column][row] = CELL_STATE.OPEN;
 
-        field.coverField[col][row] = CELL_STATE.OPEN;
+      const aroundArray = getAround(column, row);
 
-        const aroundArray = getAround(col, row);
+      if (field.underField[column][row] === UNDER_STATE.NONE) {
+        aroundArray.forEach((neighbor) => {
+          const [nCol, nRow] = neighbor;
 
-        if (field.underField[col][row] === UNDER_STATE.NONE) {
-          aroundArray.forEach((neighbor) => {
-            const [nCol, nRow] = neighbor;
-
-            if (field.coverField[nCol]?.[nRow] !== CELL_STATE.OPEN
-              && field.underField[nCol]?.[nRow] !== UNDER_STATE.BOMB) {
-              stack.push(neighbor);
-            }
-          });
-        }
+          if (field.coverField[nCol]?.[nRow] !== CELL_STATE.OPEN
+            && field.underField[nCol]?.[nRow] !== UNDER_STATE.BOMB) {
+              bombSlice.caseReducers.openButtons(state, { payload: neighbor });
+          }
+        });
       }
     },
     openAroundButtons: (state, { payload: [column, row] }) => {
@@ -87,6 +85,6 @@ export const bombSlice = createSlice({
   },
 });
 
-export const { setGameInfo, setTimer, setIsGameEnd, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
+export const { setGameInfo, setTimerReset, setTimer, setIsGameEnd, toggleView, setField, setButtonState, openButtons, openAroundButtons } = bombSlice.actions;
 
 export default bombSlice.reducer;
