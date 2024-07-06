@@ -4,7 +4,7 @@ export default function UseNameInput() {
       <label>
         유저이름
       </label>
-      <input type="text" placeholder="이름을 입력해주세요" className="text-center" required maxLength={5}/>
+      <input data-test="name-input" type="text" placeholder="이름을 입력해주세요" className="text-center" required maxLength={5}/>
     </div>
   );
 }

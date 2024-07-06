@@ -77,6 +77,7 @@ export default function GameField() {
               case CELL_STATE.COVERED:
                 return (
                   <button
+                    data-test="covered-button"
                     key={row + "-" + column}
                     onClick={() => handleLeftClick(column, row)}
                     onContextMenu={() => changeButtonContents(row, column, 1)}
@@ -87,6 +88,7 @@ export default function GameField() {
               case CELL_STATE.FLAG:
                 return (
                   <button
+                    data-test="flag-button"
                     key={row + "-" + column}
                     onContextMenu={() => changeButtonContents(row, column, 2)}
                     className="custom-closeButton"
@@ -98,6 +100,7 @@ export default function GameField() {
               case CELL_STATE.QUESTION:
                 return (
                   <button
+                    data-test="question-button"
                     key={row + "-" + column}
                     onContextMenu={() => changeButtonContents(row, column, 0)}
                     className="custom-closeButton"
