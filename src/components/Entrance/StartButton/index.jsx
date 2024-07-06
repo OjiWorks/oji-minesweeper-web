@@ -4,7 +4,7 @@ const entranceStyle = {
 
 export default function StartButton() {
   return (
-    <button className="custom-blackButton" type="submit">
+    <button data-test="start-button" className="custom-blackButton" type="submit">
       게임시작
     </button>
   );
