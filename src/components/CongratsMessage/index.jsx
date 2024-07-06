@@ -5,7 +5,7 @@ export default function CongratsMessage() {
   const timeCount = useSelector((state) => state.bomb.timer.timeCount);
 
   return (
-    <div className="absolute top-0 transform -right-[195px] text-xl text-center w-[210px]">
+    <div className="absolute bottom-[180px] transform -right-[195px] text-xl text-center w-[210px]">
       <div className="relative bg-white p-2 rounded-lg shadow-lg w-xs">
         <p className="text-gray-700">
           {userId}님

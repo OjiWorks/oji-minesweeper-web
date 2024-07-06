@@ -11,7 +11,8 @@
 
 @layer base {
   body {
-    @apply font-DungGeunMo;
+    @apply font-DungGeunMo bg-orange-100;
+    
   }
 }
 
@@ -24,5 +25,5 @@
 }
 
 .custom-blackButton {
-  @apply z-10 h-10 px-6 font-semibold rounded-md bg-black hover:bg-red-900 text-white;
+  @apply z-50 h-10 px-4 mx-1 font-semibold rounded-md bg-black hover:bg-red-900 text-white;
 }
