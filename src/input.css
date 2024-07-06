@@ -25,5 +25,5 @@
 }
 
 .custom-blackButton {
-  @apply z-50 h-10 px-4 mx-1 font-semibold rounded-md bg-black hover:bg-red-900 text-white;
+  @apply z-50 h-10 px-4 mx-1 font-semibold rounded-md bg-black hover:bg-red-900 text-white whitespace-nowrap;
 }

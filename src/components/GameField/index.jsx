@@ -72,7 +72,7 @@ export default function GameField() {
     <div className="relative">
       <main 
       onContextMenu={(e) => { e.preventDefault() }} 
-      className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} border-4 border-amber-800 shadow-lg rounded bg-amber-100`}>
+      className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} border-4 border-amber-800 shadow-lg rounded bg-amber-100 min-w-max`}>
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
