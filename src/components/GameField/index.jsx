@@ -72,7 +72,7 @@ export default function GameField() {
     <div className="relative">
       <main 
       onContextMenu={(e) => { e.preventDefault() }} 
-      className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} border-4 border-amber-800 shadow-lg rounded bg-amber-100 min-w-max`}>
+      className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} relative border-4 border-amber-800 shadow-lg rounded bg-amber-100 min-w-max z-30`}>
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
@@ -130,7 +130,7 @@ export default function GameField() {
         <GameOver />,
         document.body
       )}
-      <img src={gang1} width="200px" className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px]" />
+      <img src={gang1} width="200px" className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px] z-15" />
       {isWin && createPortal(
         <CongratsCard />,
         document.body
