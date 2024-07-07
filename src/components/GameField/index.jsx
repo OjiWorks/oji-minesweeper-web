@@ -130,7 +130,7 @@ export default function GameField() {
         <GameOver />,
         document.body
       )}
-      <img src={gang1} width="200px" className="absolute bottom-0 -right-[200px]" />
+      <img src={gang1} width="200px" className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px]" />
       {isWin && createPortal(
         <CongratsCard />,
         document.body

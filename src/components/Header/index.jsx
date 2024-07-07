@@ -32,7 +32,7 @@ export default function Header() {
         폭탄수 : {Math.floor(row * column * bombRate)}
       </div>
       <div className="md:m-4 w-[250px] text-xl px-3 md:py-2 bg-amber-400 text-gray-900 rounded shadow">
-        깃발갯수 : {count}
+        깃발수 : {count}
       </div>
       <div className="md:m-4 w-[250px] text-xl px-3 md:py-2 bg-amber-500 text-gray-900 rounded shadow">
         시간 : {timer}
