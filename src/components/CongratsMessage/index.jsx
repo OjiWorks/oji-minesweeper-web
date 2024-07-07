@@ -6,7 +6,7 @@ export default function CongratsMessage() {
 
   return (
 
-    <div className="absolute top-0 md:bottom-[180px] md:top-auto transform translate-x-1/2 md:translate-x-0 translate-y-1 md:translate-y-0 right-1/2 md:-right-[195px] text-2xl md:text-xl text-center w-max md:w-[210px]">
+    <div className="absolute top-0 md:bottom-[180px] md:top-auto transform translate-x-1/2 md:translate-x-0 translate-y-1 md:translate-y-0 right-1/2 md:-right-[195px] text-2xl md:text-xl text-center w-max md:w-[210px] z-30">
       <div className="relative bg-white p-2 rounded-lg shadow-lg w-xs border rounded">
         <p className="text-gray-700">
           {userId}님
