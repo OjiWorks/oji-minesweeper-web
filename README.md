@@ -17,7 +17,8 @@
 > 양수보(메인 드라이버), 이주연(설계), 장보경(CSS, 서브 드라이버), 정의성(테스트, 서버)
 
 - **사용스택**
-<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/><img src="https://img.shields.io/badge/tailwindCSS-06B6D4?style=for-the-badge&logo=tailwind%20css&logoColor=black"/> <img src="https://img.shields.io/badge/react.js-61DAFB?style=for-the-badge&logo=react&logoColor=black"/> 
+  
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/><img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/><img src="https://img.shields.io/badge/tailwindCSS-06B6D4?style=for-the-badge&logo=tailwind%20css&logoColor=black"/><img src="https://img.shields.io/badge/react.js-61DAFB?style=for-the-badge&logo=react&logoColor=black"/><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=black"/>
 
 
 ## <제작 과정>
