@@ -70,7 +70,9 @@ export default function GameField() {
 
   return (
     <div className="relative">
-      <main onContextMenu={(e) => { e.preventDefault() }} className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} border-4 border-amber-800 shadow-lg rounded bg-amber-100`}>
+      <main 
+      onContextMenu={(e) => { e.preventDefault() }} 
+      className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} relative border-4 border-amber-800 shadow-lg rounded bg-amber-100 min-w-max z-30`}>
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
@@ -128,16 +130,17 @@ export default function GameField() {
         <GameOver />,
         document.body
       )}
-      <img src={gang1} width="200px" className="absolute bottom-0 -right-[200px]" />
+      <img src={gang1} width="200px" className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px] z-15" />
       {isWin && createPortal(
         <CongratsCard />,
         document.body
       )}
-      <div className="absolute transform -translate-y-1/2  top-1/2 -left-[100px] flex flex-col">
-        <button className="custom-blackButton mb-10 top-1/2 transform -translate-x-1/2 left-1/2 z-50"
+      <div className="absolute transform md:-translate-y-1/2 translate-x-1/2 translate-x-0 md:top-1/2 md:-left-[80px] left-1/2 left-0 md:mt-0 mt-2 flex flex-col">
+        <button 
+          className="relative custom-blackButton transform right-1/2 -translate-x-1/2 md:mx-0 my-1 md:mb-10 "
           onClick={() => handleReplay(false)}>다시하기</button>
         <button
-          className="custom-blackButton top-1/2 transform -translate-x-1/2 left-1/2 z-50"
+          className="relative custom-blackButton transform right-1/2 -translate-x-1/2 md:mx-0 "
           onClick={() => location.reload(true)}>메인으로</button>
       </div>
       {isWin ? (
