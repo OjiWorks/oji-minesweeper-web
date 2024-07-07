@@ -1,8 +1,138 @@
-# React + Vite
+**🔗 게임 배포 주소 : https://bombyanggang.netlify.app/**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**🔗 깃 레포지토리 주소: https://github.com/allansad/BombYangGang**
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# 💣 BombYangGang : MineSweaper(지뢰찾기)
+
+- **개요 ⛳️**
+
+> 윈도우 기본게임으로 내장되었던 지뢰찾기 게임을 따라만든 게임입니다. 
+13주차 브레이크 기간 React, Redux, TailWind를 활용하여 제작하였습니다.
+제작 기간은 약 2일 소요되었습니다.
+> 
+- **참여자 👨‍🌾**
+
+> 양수보(메인 드라이버), 이주연(설계), 장보경(CSS, 서브 드라이버), 정의성(테스트, 서버)
+
+- **사용스택**
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/><img src="https://img.shields.io/badge/tailwindCSS-06B6D4?style=for-the-badge&logo=tailwind%20css&logoColor=black"/> <img src="https://img.shields.io/badge/react.js-61DAFB?style=for-the-badge&logo=react&logoColor=black"/> 
+
+
+## <제작 과정>
+
+### ⛳️게임 진행 요소
+
+**<Rules>** 
+
+1. 1인용 (이후 온라인을 통한 다인 대전 고려중) 
+2. 게임시작 ⇒ 전체 맵 셋팅 on. (첫 클릭시 터질 수 있음)
+    1. 난이도 설정 : 폭탄 갯수 (이지: 12%, 노말: 15%, 하드: 20%)
+    2. 가로: min:9 max:30
+    3. 세로: min:9 max:30
+3. 오로지 폭탄만을 남기고 남은 맵을 모두 개방했을 시 승리합니다. 
+4. 클릭 혹은 자동확장을 통해 폭탄을 개방했을 시, 폭탄이 터지며 실패합니다. 
+
+**<UI>**
+
+1. 클릭 설정
+    1. 좌클릭 : 열기
+    2. 우클릭: 한번→ 깃발, 두번→ ?, 세번→ 해제
+        
+        [⛳️, ？, 해제]
+        
+    3. 양쪽클릭: 범위 보여주기 (호버)
+2. 상단표시: 
+    1. 남은 폭탄 갯수(깃발꽂을때 감소), 시간(플레이타임 기록용)
+3. 결과창: 성공/실패여부
+    1. 게임 오버시, 실패 안내창 + restart 버튼
+    2. 게임 클리어시, 성공 축하 안내창
+
+5. reset & restart 버튼
+
+### ⛳️ 게임구현 관련
+
+- **< 주요 사항 >**
+    1. 9*9맵 우선 고정(임시), 이후 확장.
+    2. 로직 구분 
+        1. 필드 구성 
+            1. 매개변수: 가로, 세로, 폭탄%
+            2. 반환값: 2차원 배열 맵
+            3. 자기 주변에 폭탄 갯수를 세는 로직
+        2. 0번 눌렸을 경우 연쇄개방(재귀)
+        
+    3. 데이터
+        1. 각 자리가 자기 좌표를 기억해야함 예) (1,1) → id값.
+        2. status: 
+            1. 내면상태(under status): 자기가 폭탄인지 숫자인지
+                1. 0 : 빈 칸 
+                    
+                    1~8: 주변 폭탄 갯수
+                    
+                    9: 💣
+                    
+            2. 표면상태(covered status): 깃발, 물음표, 빈값, 열림(표면인 버튼이 사라지고 내면 보드가 드러남)
+- **🌊 < 플로우 >**
+    1. 게임 시작 시, 사용자의 이름과 가로갯수, 세로 갯수, 난이도(폭탄의 비율)을 적습니다. → store에 관리될 데이터
+    2. 게임시작 버튼을 누를 시, 게임 초기셋팅을 진행합니다.
+        1. 데이터를 store에 보냅니다. 
+        2. 내면 맵 생성
+            1. 가로*세로 만큼의 1차 배열을 만듭니다.
+            2. 폭탄의 갯수를 계산 (가로*세로*난이도)하여 위 배열에 랜덤하게 배치합니다.
+            3. 1차배열을 입력한 가로*세로에 맞게 출력할 수 있도록 잘라 2차배열로 생성합니다. 
+            4. 각 위치를 돌며 자신을 둘러싼 8개의 위치에 폭탄이 있는지를 확인하고, 그 갯수를 value에 숫자를 기록합니다.
+        3. 표면 맵 생성
+            1. 가로*세로 만큼의 2차원 배열을 생성한후 `<button>` 으로 내보냅니다. 
+    3. 게임 플레이 중, 버튼 클릭 액션
+        1.  `좌클릭`
+            1. 해당 버튼의 위치를 오픈합니다. 
+            2. 오픈후 `<button>` → `<div>{해당 좌표의 내면값}</div>` 
+                1. (내면값 === nulll) ⇒ 주변 좌표를 연쇄적으로 개방합니다. 단 , 연쇄중에서도 (내면 상태 === null)을 중심으로 8칸만 해제 합니다. 
+                2. (내면값 === 폭탄 갯수) ⇒ 추가 동작 없음
+                3. (내면값 === 폭탄) ⇒ **게임 실패.**
+        2. `우클릭`
+            1. 버튼의 표면 상태를 변경합니다. `(”” → “⛳️” → “?” → “”);`
+        3. `우클릭 + 좌클릭`
+            1. 선택한 맵 주변의 8개의 칸을 해제합니다. 단, 찾은 폭탄의 갯수 (깃발표시)가 내면 상태의 갯수와 동일할 시 개방합니다.  
+                1. (깃발 위치 === 올바른 폭탄 위치) 추가 동작 없이, 맵 개방
+                2. (깃발 위치 === 틀린 폭탄 위치) 폭탄위치를 연것과 동일한 행동으로, **게임실패** 
+    4. 승리조건
+        
+        (열리지 않은 칸의 갯수 === 폭탄 갯수) && ( 열리지 않은 칸의 위치 === 폭탄 위치)일 경우 승리합니다.
+        
+
+---
+
+## <새로 사용해본 것>
+
+- Lottie animation(react-lottie)
+
+https://lottiefiles.com/free-animations/property
+
+---
+
+## <각자 흥미로웠던 것>
+
+> 1. “나 이거 솔직히 조금이라도 뿌듯하다!”
+2. “이것 때문에 🐶같이 고생했다.”
+3. “이번 구현에서 이게 좀 흥미로웠다!”
+하는 점 등등을 남겨주시면 이게 바로 README거리 !
+> 
+1. 테일윈드 grid-templete 의 함정
+2. 핵심 로직 구현
+    1. 연쇄 개방로직 (재귀 관련)
+    2. 승리, 패배 조건 로직
+
+---
+
+## <미구현사항>
+
+1. 다중 대전
+2. 트로피 요소 
+3. (최단시간 클리어) 랭킹
+    1. Custom 맵버전과 랭킹버전으로 나누기
+    2. 초급9*9 중급16*16 고급16*30에만 랭킹 존재
+    3. 클리어시 랭킹/리더보드 보여주기
+    4. 초급을 위해 1000ms 단위가 아닌 100ms 10ms단위로 timer 변경?!
+4. 모바일 대응 화면 UI 개선
