@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'DungGeunMo';
-  src: url('../src/assets/font/DungGeunMo.woff') format("woff");
+  font-family: "DungGeunMo";
+  src: url("../src/assets/font/DungGeunMo.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
@@ -12,7 +12,6 @@
 @layer base {
   body {
     @apply font-DungGeunMo bg-orange-100;
-    
   }
 }
 

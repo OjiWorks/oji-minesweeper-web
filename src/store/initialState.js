@@ -3,12 +3,12 @@ const initialState = {
     userId: "",
     row: 0,
     column: 0,
-    bombRate: 0
+    bombRate: 0,
   },
-  viewMode: "entrance",
+  viewMode: "entrance", //TODO: Session Storage 로 이동. isPlaying? true: false
   field: {
     coverField: [],
-    underField: []
+    underField: [],
   },
   timer: {
     timeId: 0,
