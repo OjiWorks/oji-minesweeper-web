@@ -16,7 +16,7 @@ import {
   setButtonState,
 } from "../../services/bomb";
 
-import mrBomb_mascot from "../../assets/mrBomb.png";
+import mrBomb_mascot from "../../../public/images/mrBomb.png";
 import { CELL_STATE, GRID_COLS, GRID_ROWS, UNDER_STATE } from "../../CONSTANTS";
 
 export default function GameField() {

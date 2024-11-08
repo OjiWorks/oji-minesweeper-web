@@ -8,7 +8,7 @@ import { CELL_STATE } from "../../CONSTANTS/index";
 import convertToBombRate from "../../utils/converToBombRate";
 import createUnderField from "../../utils/createField";
 
-import logo from "../../assets/textlogo.png";
+import logo from "../../../public/images/logo.png";
 
 const entranceStyle = {
   bg: "fixed inset-0 flex flex-col items-center justify-center",
