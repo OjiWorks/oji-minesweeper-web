@@ -2,23 +2,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 
-import GameOver from "../GameOver";
-import CongratsCard from "../CongratsCard";
-import CongratsMessage from "../CongratsMessage";
+import { Results } from "../Results";
+import CongratsCard from "../../components/CongratsCard";
+import CongratsMessage from "../../components/CongratsMessage";
+import { Button } from "../../components/Button";
 
 import createUnderField from "../../utils/createField";
-
 import { setGameInfo, setField, setTimerReset } from "../../services/bomb";
-import { setIsGameEnd, openAroundButtons, openButtons, setButtonState } from "../../services/bomb";
+import {
+  setIsGameEnd,
+  openAroundButtons,
+  openButtons,
+  setButtonState,
+} from "../../services/bomb";
 
-import gang1 from "../../assets/bombgang_1.png";
+import mrBomb_mascot from "../../assets/mrBomb.png";
 import { CELL_STATE, GRID_COLS, GRID_ROWS, UNDER_STATE } from "../../CONSTANTS";
 
 export default function GameField() {
   const [isWin, setIsWin] = useState(false);
-  const isGameEnd = useSelector(state => state.bomb.isGameEnd);
-  const field = useSelector(state => state.bomb.field);
-  const { userId, row, column, bombRate } = useSelector(state => state.bomb.gameSetting);
+  const isGameEnd = useSelector((state) => state.bomb.isGameEnd);
+  const field = useSelector((state) => state.bomb.field);
+  const { userId, row, column, bombRate } = useSelector(
+    (state) => state.bomb.gameSetting
+  );
   const bombCount = Math.floor(row * column * bombRate);
   const dispatch = useDispatch();
   let openCount = 0;
@@ -30,7 +37,7 @@ export default function GameField() {
   function handleLeftClick(column, row) {
     if (field.underField[column][row] === UNDER_STATE.BOMB) {
       dispatch(setIsGameEnd(true));
-    };
+    }
 
     dispatch(openButtons([column, row]));
   }
@@ -46,9 +53,13 @@ export default function GameField() {
   }
 
   useEffect(() => {
-    field.coverField?.forEach(columns => (columns?.forEach(row => { if (row === CELL_STATE.OPEN) openCount++; })));
+    field.coverField?.forEach((columns) =>
+      columns?.forEach((row) => {
+        if (row === CELL_STATE.OPEN) openCount++;
+      })
+    );
 
-    if (bombCount === (row * column) - openCount) {
+    if (bombCount === row * column - openCount) {
       setIsWin(true);
     }
 
@@ -70,9 +81,12 @@ export default function GameField() {
 
   return (
     <div className="relative">
-      <main 
-      onContextMenu={(e) => { e.preventDefault() }} 
-      className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} relative border-4 border-amber-800 shadow-lg rounded bg-amber-100 min-w-max z-30`}>
+      <main
+        onContextMenu={(e) => {
+          e.preventDefault();
+        }}
+        className={`grid ${GRID_ROWS[row]} ${GRID_COLS[column]} relative border-4 border-amber-800 shadow-lg rounded bg-amber-100 min-w-max z-30`}
+      >
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
@@ -119,33 +133,27 @@ export default function GameField() {
                     className="custom-openButton"
                   >
                     {field.underField[column][row] === UNDER_STATE.NONE
-                      ? "" : field.underField[column][row]}
+                      ? ""
+                      : field.underField[column][row]}
                   </div>
                 );
             }
           });
         })}
       </main>
-      {(!isWin && isGameEnd) && createPortal(
-        <GameOver />,
-        document.body
-      )}
-      <img src={gang1} width="200px" className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px] z-15" />
-      {isWin && createPortal(
-        <CongratsCard />,
-        document.body
-      )}
+      {!isWin && isGameEnd && createPortal(<Results />, document.body)}
+      <img
+        src={mrBomb_mascot}
+        width="200px"
+        className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px] z-15"
+      />
+      {/* TODO: 관심사 분리하기. 현재 셀 컴포넌트에서 네비게이션 동작을 진행함 */}
+      {isWin && createPortal(<CongratsCard />, document.body)}
       <div className="absolute transform md:-translate-y-1/2 translate-x-1/2 translate-x-0 md:top-1/2 md:-left-[80px] left-1/2 left-0 md:mt-0 mt-2 flex flex-col">
-        <button 
-          className="relative custom-blackButton transform right-1/2 -translate-x-1/2 md:mx-0 my-1 md:mb-10 "
-          onClick={() => handleReplay(false)}>다시하기</button>
-        <button
-          className="relative custom-blackButton transform right-1/2 -translate-x-1/2 md:mx-0 "
-          onClick={() => location.reload(true)}>메인으로</button>
+        <Button text={"다시하기"} onClick={() => handleReplay(false)} />
+        <Button text={"메인으로"} onClick={() => location.reload(true)} />
       </div>
-      {isWin ? (
-        <CongratsMessage />
-      ) : null}
+      {isWin ? <CongratsMessage /> : null}
     </div>
   );
 }

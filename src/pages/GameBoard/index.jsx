@@ -1,5 +1,5 @@
 import GameField from "../GameField";
-import Header from "../Header";
+import Header from "../../components/Header";
 
 export default function GameBoard() {
   return (
