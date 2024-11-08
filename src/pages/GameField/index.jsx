@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
+
 import { useEffect, useState } from "react";
 
 import { Results } from "../Results";
@@ -143,7 +144,7 @@ export default function GameField() {
       </main>
       {!isWin && isGameEnd && createPortal(<Results />, document.body)}
       <img
-        src={mrBomb_mascot}
+        src={mrBomb_mascot.src}
         width="200px"
         className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px] z-15"
       />

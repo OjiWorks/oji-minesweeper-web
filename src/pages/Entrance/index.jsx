@@ -47,7 +47,7 @@ export default function Entrance() {
   return (
     <div className={entranceStyle.bg}>
       <div className={entranceStyle.container}>
-        <img src={logo} className="my-4" />
+        <img src={logo.src} className="my-4" />
         <form onSubmit={handleGameStart} className={entranceStyle.form}>
           <div className="my-3">
             <label>유저이름</label>
@@ -74,7 +74,7 @@ export default function Entrance() {
           </div>
           {/* TODO: 중앙 정렬 시켜주기 , h-10 px-6 font-semibold rounded-md
           bg-black text-white */}
-          <Button text={"게임시작"} />
+          <Button text={"게임시작"} testId={"start-button"} />
         </form>
       </div>
     </div>
