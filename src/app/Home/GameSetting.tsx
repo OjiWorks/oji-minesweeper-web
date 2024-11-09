@@ -39,54 +39,52 @@ export function GameSetting() {
   }
 
   return (
-    <form onSubmit={handleGameStart}>
-      <div className="flex flex-col items-center">
-        <div className="my-3">
-          <label className="mr-2">유저이름</label>
+    <form onSubmit={handleGameStart} className="flex flex-col items-center">
+      <div className="my-3">
+        <label className="mr-2">유저이름</label>
+        <input
+          data-test="name-input"
+          type="text"
+          placeholder="이름을 입력해주세요"
+          className="text-center"
+          required
+        />
+      </div>
+      <div className="my-3">
+        <span className="p-1">
+          <label className="mr-2">가로</label>
           <input
-            data-test="name-input"
-            type="text"
-            placeholder="이름을 입력해주세요"
-            className="text-center"
+            min="9"
+            max="30"
+            defaultValue="9"
+            type="number"
+            className="text-center w-9 h-6 py-4"
             required
           />
-        </div>
-        <div className="my-3">
-          <span className="p-1">
-            <label className="mr-2">가로</label>
-            <input
-              min="9"
-              max="30"
-              defaultValue="9"
-              type="number"
-              className="text-center w-9 h-6 py-4"
-              required
-            />
-            칸
-          </span>
-          <span className="p-1">
-            <label className="mr-2">세로</label>
-            <input
-              min="9"
-              max="30"
-              defaultValue="9"
-              type="number"
-              className="text-center w-9 h-6 py-4"
-              required
-            />
-            칸
-          </span>
-        </div>
-        <div className="my-3">
-          <label className="mr-2">난이도</label>
-          <select className="py-2" required>
-            <option>초급</option>
-            <option>중급</option>
-            <option>고급</option>
-          </select>
-        </div>
-        <Button text={"게임시작"} testId={"start-button"} />
+          칸
+        </span>
+        <span className="p-1">
+          <label className="mr-2">세로</label>
+          <input
+            min="9"
+            max="30"
+            defaultValue="9"
+            type="number"
+            className="text-center w-9 h-6 py-4"
+            required
+          />
+          칸
+        </span>
       </div>
+      <div className="my-3">
+        <label className="mr-2">난이도</label>
+        <select className="py-2" required>
+          <option>초급</option>
+          <option>중급</option>
+          <option>고급</option>
+        </select>
+      </div>
+      <Button text={"게임시작"} testId={"start-button"} />
     </form>
   );
 }

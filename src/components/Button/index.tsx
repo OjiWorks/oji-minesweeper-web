@@ -1,3 +1,5 @@
+"use client";
+
 function noop(): void {}
 
 type ButtonProps = {
