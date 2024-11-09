@@ -4,7 +4,7 @@ import { Button } from "../../components/Button";
 
 export function Login() {
   return (
-    <form className="flex flex-col items-center p-100">
+    <form className="flex flex-col items-center p-10">
       <div className="my-3">
         <label className="mr-2">유저이름</label>
         <input
