@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import initialState from "./initialState";
-
 import bombReducer from "../services/bomb";
 
 const reducer = {
@@ -8,8 +7,10 @@ const reducer = {
 };
 
 const store = configureStore({
-  reducer,
-  initialState,
+  reducer: reducer.bomb,
+  preloadedState: initialState,
 });
 
 export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { Provider } from "react-redux";
 import store from "../store";
 
-const App = dynamic(() => import("./app"), { ssr: false });
+const App = dynamic(() => import("./app.tsx"), { ssr: false });
 
 export default function ClientOnly() {
   return (

@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+"use client";
 
-import Entrance from "../pages/Entrance";
+import { useAppSelector } from "../hooks/useRedux";
+import { Entrance } from "./Home/page";
 import GameBoard from "../pages/GameBoard";
 
 function App() {
-  const viewMode = useSelector((state) => state.bomb.viewMode);
+  const viewMode = useAppSelector((state) => state.viewMode);
 
   return viewMode === "entrance" ? <Entrance /> : <GameBoard />;
 }

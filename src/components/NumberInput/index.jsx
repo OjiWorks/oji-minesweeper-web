@@ -1,6 +1,4 @@
-export default function NumberInput({ label }) {
-  const SCALE = "칸";
-
+export default function NumberInput({ label, scale }) {
   return (
     <span className="p-1">
       {label}
@@ -12,7 +10,7 @@ export default function NumberInput({ label }) {
         className="text-center w-9 h-6 py-4"
         required
       />
-      {SCALE}
+      {scale}
     </span>
   );
 }

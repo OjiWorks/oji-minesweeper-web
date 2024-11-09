@@ -1,4 +1,6 @@
-const initialState = {
+import { BombRootState } from "./types";
+
+const initialState: BombRootState = {
   gameSetting: {
     userId: "",
     row: 0,
