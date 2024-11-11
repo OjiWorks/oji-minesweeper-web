@@ -1,16 +1,18 @@
 "use client";
-
 import { useDispatch } from "react-redux";
-import { setField, setGameInfo, toggleView } from "../../services/bomb";
+import { useState } from "react";
+import { setField, setGameInfo, toggleView } from "../../../services/bomb";
 
-import { Button } from "../../components/Button";
+import { Button } from "../../../components/Button";
 
-import { CELL_STATE } from "../../CONSTANTS/index";
-import convertToBombRate from "../../utils/converToBombRate";
-import createUnderField from "../../utils/createField";
-import { gameInfo } from "../../store/types";
+import { CELL_STATE } from "../../../CONSTANTS/index";
+import convertToBombRate from "../../../utils/converToBombRate";
+import createUnderField from "../../../utils/createField";
+import { gameInfo } from "../../../store/types";
 
-export function GameSetting() {
+export function Settings() {
+  const [playMode, setPlayMode] = useState("single");
+
   const dispatch = useDispatch();
 
   function handleGameStart(e: React.FormEvent<HTMLFormElement>) {
@@ -38,7 +40,7 @@ export function GameSetting() {
     dispatch(setField({ underField, coverField }));
   }
 
-  return (
+  return playMode === "single" ? (
     <form onSubmit={handleGameStart} className="flex flex-col items-center">
       <div className="my-3">
         <label className="mr-2">유저이름</label>
@@ -86,5 +88,11 @@ export function GameSetting() {
       </div>
       <Button text={"게임시작"} testId={"start-button"} />
     </form>
+  ) : (
+    <div>
+      <Button text="쉬움" />
+      <Button text="보통" />
+      <Button text="어려움" />
+    </div>
   );
 }
