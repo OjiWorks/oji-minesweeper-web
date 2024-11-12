@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import gameOverLottie from "../../assets/game_over.json";
+import explosion from "../../assets/animation/explosion.json";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "../../components/Button";
@@ -35,7 +35,7 @@ export function Results() {
       {/* FIXME: 위치 중앙정렬 시켜주기 className="z-20 custom-blackButton absolute top-1/2 transform
       -translate-x-1/2 -translate-y-1/2 left-1/2" */}
       <Button text={"다시하기"} onClick={() => handleReplay()} />
-      <Lottie animationData={gameOverLottie} loop={false} />
+      <Lottie animationData={explosion} loop={false} />
     </div>
   );
 }
