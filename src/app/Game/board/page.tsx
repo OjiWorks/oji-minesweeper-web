@@ -1,5 +1,7 @@
-import GameField from "../GameField";
-import Header from "../../components/Header";
+"use client";
+
+import GameField from "./GameField";
+import Header from "../../../components/Header";
 
 export default function GameBoard() {
   return (

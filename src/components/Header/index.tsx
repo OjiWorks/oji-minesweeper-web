@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
 
-import { setTimer } from "../../services/bomb";
+import { setTimer } from "../../store/bombSlice";
 
 export default function Header() {
-  const { row, column, bombRate } = useSelector(
-    (state) => state.bomb.gameSetting
-  );
-  const isGameEnd = useSelector((state) => state.bomb.isGameEnd);
-  const timer = useSelector((state) => state.bomb.timer.timeCount);
-  const coverField = useSelector((state) => state.bomb.field.coverField);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { row, column, bombRate } = useAppSelector((state) => state.bomb.gameConfig);
+  const { isGameEnd, timer, field } = useAppSelector((state) => state.bomb);
+  const time = timer.timeCount;
+  const coverField = field.coverField;
   let count = 0;
 
   coverField?.forEach((x) =>
@@ -31,7 +29,7 @@ export default function Header() {
     }
 
     return () => clearInterval(timeId);
-  }, [timer, isGameEnd]);
+  }, [time, isGameEnd]);
 
   //TODO: 헤더를 재사용 ui로 뺄건지.
   return (
@@ -43,7 +41,7 @@ export default function Header() {
         깃발수 : {count}
       </div>
       <div className="md:m-4 w-[250px] text-xl px-3 md:py-2 bg-amber-500 text-gray-900 rounded shadow">
-        시간 : {timer}
+        시간 : {time}
       </div>
     </header>
   );

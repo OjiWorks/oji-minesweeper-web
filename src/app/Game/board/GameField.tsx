@@ -1,62 +1,53 @@
-import { useSelector, useDispatch } from "react-redux";
+"use client";
+
 import { createPortal } from "react-dom";
-
 import { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "../../../hooks/useRedux";
 
-import { Results } from "../Results";
-import CongratsCard from "../../components/CongratsCard";
-import CongratsMessage from "../../components/CongratsMessage";
-import { Button } from "../../components/Button";
+import { Results } from "./Results";
+import CongratsCard from "../../../components/CongratsCard";
+import CongratsMessage from "../../../components/CongratsMessage";
+import { Button } from "../../../components/Button";
 
-import createUnderField from "../../utils/createField";
-import { setGameInfo, setField, setTimerReset } from "../../services/bomb";
-import {
-  setIsGameEnd,
-  openAroundButtons,
-  openButtons,
-  setButtonState,
-} from "../../services/bomb";
+import createUnderField from "../../../services/createField";
+import { setGameConfig, setField, setTimerReset } from "../../../store/bombSlice";
+import { setIsGameEnd, openAroundCells, openCells, setCellState } from "../../../store/bombSlice";
+import { CoverState } from "../../../types";
 
 import mrBomb_mascot from "../../../public/images/mrBomb.png";
-import { CELL_STATE, GRID_COLS, GRID_ROWS, UNDER_STATE } from "../../CONSTANTS";
+import { GRID_COLS, GRID_ROWS } from "../../../CONSTANTS";
 
 export default function GameField() {
+  const dispatch = useAppDispatch();
   const [isWin, setIsWin] = useState(false);
-  const isGameEnd = useSelector((state) => state.bomb.isGameEnd);
-  const field = useSelector((state) => state.bomb.field);
-  const { userId, row, column, bombRate } = useSelector(
-    (state) => state.bomb.gameSetting
-  );
-  const bombCount = Math.floor(row * column * bombRate);
-  const dispatch = useDispatch();
+  const { isGameEnd, field, gameConfig } = useAppSelector((state) => state.bomb);
+  const { row, column, bombRate } = gameConfig;
+
   let openCount = 0;
+  const bombCount = Math.floor(row * column * bombRate);
 
-  function changeButtonContents(row, column, index) {
-    dispatch(setButtonState({ row, column, index }));
-  }
-
-  function handleLeftClick(column, row) {
-    if (field.underField[column][row] === UNDER_STATE.BOMB) {
+  function handleLeftClick(column: number, row: number) {
+    if (field.underField[column][row] === "bomb") {
       dispatch(setIsGameEnd(true));
     }
 
-    dispatch(openButtons([column, row]));
+    dispatch(openCells([column, row]));
   }
 
-  function handleBothClick(e, column, row) {
+  function handleBothClick(e: React.MouseEvent<HTMLElement, MouseEvent>, column: number, row: number) {
     const clickType = e.buttons;
     const BOTH_CLICK = 3;
 
     if (clickType === BOTH_CLICK) {
       e.preventDefault();
-      dispatch(openAroundButtons([column, row]));
+      dispatch(openAroundCells([column, row]));
     }
   }
 
   useEffect(() => {
     field.coverField?.forEach((columns) =>
       columns?.forEach((row) => {
-        if (row === CELL_STATE.OPEN) openCount++;
+        if (row === "open") openCount++;
       })
     );
 
@@ -71,9 +62,9 @@ export default function GameField() {
 
   function handleReplay() {
     const underField = createUnderField(row, column, bombRate);
-    const coverField = Array(column).fill(Array(row).fill(CELL_STATE.COVERED));
+    const coverField = Array(column).fill(Array(row).fill("covered")) as CoverState[][];
 
-    dispatch(setGameInfo({ userId, row, column, bombRate }));
+    dispatch(setGameConfig({ row, column, bombRate }));
     dispatch(setField({ underField, coverField }));
     dispatch(setIsGameEnd(false));
     dispatch(setTimerReset());
@@ -91,51 +82,49 @@ export default function GameField() {
         {field.coverField.map((columnArray, column) => {
           return columnArray.map((element, row) => {
             switch (element) {
-              case CELL_STATE.COVERED:
+              case "covered":
                 return (
                   <button
                     data-test="covered-button"
                     key={row + "-" + column}
                     onClick={() => handleLeftClick(column, row)}
-                    onContextMenu={() => changeButtonContents(row, column, 1)}
+                    onContextMenu={() => dispatch(setCellState([row, column, "covered"]))}
                     className="custom-closeButton"
                   ></button>
                 );
 
-              case CELL_STATE.FLAG:
+              case "flag":
                 return (
                   <button
                     data-test="flag-button"
                     key={row + "-" + column}
-                    onContextMenu={() => changeButtonContents(row, column, 2)}
+                    onContextMenu={() => dispatch(setCellState([row, column, "flag"]))}
                     className="custom-closeButton"
                   >
                     🚩
                   </button>
                 );
 
-              case CELL_STATE.QUESTION:
+              case "question":
                 return (
                   <button
                     data-test="question-button"
                     key={row + "-" + column}
-                    onContextMenu={() => changeButtonContents(row, column, 0)}
+                    onContextMenu={() => dispatch(setCellState([row, column, "question"]))}
                     className="custom-closeButton"
                   >
                     ?
                   </button>
                 );
 
-              case CELL_STATE.OPEN:
+              case "open":
                 return (
                   <div
                     key={row + "-" + column}
                     onMouseDown={(e) => handleBothClick(e, column, row)}
                     className="custom-openButton"
                   >
-                    {field.underField[column][row] === UNDER_STATE.NONE
-                      ? ""
-                      : field.underField[column][row]}
+                    {field.underField[column][row] === "nonBomb" ? "" : field.underField[column][row]}
                   </div>
                 );
             }
@@ -150,9 +139,10 @@ export default function GameField() {
       />
       {/* TODO: 관심사 분리하기. 현재 셀 컴포넌트에서 네비게이션 동작을 진행함 */}
       {isWin && createPortal(<CongratsCard />, document.body)}
-      <div className="absolute transform md:-translate-y-1/2 translate-x-1/2 translate-x-0 md:top-1/2 md:-left-[80px] left-1/2 left-0 md:mt-0 mt-2 flex flex-col">
-        <Button text={"다시하기"} onClick={() => handleReplay(false)} />
-        <Button text={"메인으로"} onClick={() => location.reload(true)} />
+      <div className="absolute transform md:-translate-y-1/2 translate-x-0 md:top-1/2 md:-left-[80px] left-0 md:mt-0 mt-2 flex flex-col">
+        <Button text={"다시하기"} onClick={() => handleReplay()} />
+        {/* FIXME: 메인으로 이동하기 라우터 연결하기 */}
+        <Button text={"메인으로"} onClick={() => location.reload()} />
       </div>
       {isWin ? <CongratsMessage /> : null}
     </div>

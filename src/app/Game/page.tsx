@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "../../components/Button";
-import { Settings } from "./Settings/page";
+import { Config } from "./config/page";
 
 export function Game() {
-  return <Settings />;
+  return <Config />;
 }

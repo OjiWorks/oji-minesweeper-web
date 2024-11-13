@@ -1,0 +1,36 @@
+"use client";
+
+import Lottie from "lottie-react";
+import explosion from "../../../assets/animation/explosion.json";
+
+import { useAppSelector, useAppDispatch } from "../../../hooks/useRedux";
+import { Button } from "../../../components/Button";
+
+import createUnderField from "../../../services/createField";
+import { setGameConfig, setField, setTimerReset, setIsGameEnd } from "../../../store/bombSlice";
+import { CoverState } from "../../../types";
+
+//FIXME: 이전에는 실패했을 때만 결과만 보여줬음, 공동 결과창으로 관리
+export function Results() {
+  const dispatch = useAppDispatch();
+  const { row, column, bombRate } = useAppSelector((state) => state.bomb.gameConfig);
+
+  function handleReplay() {
+    const underField = createUnderField(row, column, bombRate);
+    const coverField = Array(column).fill(Array(row).fill("covered")) as CoverState[][];
+
+    dispatch(setGameConfig({ row, column, bombRate }));
+    dispatch(setField({ underField, coverField }));
+    dispatch(setIsGameEnd(false));
+    dispatch(setTimerReset());
+  }
+
+  return (
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-300 h-200">
+      {/* FIXME: 위치 중앙정렬 시켜주기 className="z-20 custom-blackButton absolute top-1/2 transform
+      -translate-x-1/2 -translate-y-1/2 left-1/2" */}
+      <Button text={"다시하기"} onClick={() => handleReplay()} />
+      <Lottie animationData={explosion} loop={false} />
+    </div>
+  );
+}
