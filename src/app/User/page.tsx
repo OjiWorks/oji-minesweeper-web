@@ -1,6 +1,6 @@
 "use client";
 
-import { Login } from "./Login/page";
+import { Login } from "./login/page";
 import logo from "../../../public/images/logo.png";
 
 export function User() {
