@@ -2,25 +2,32 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../../hooks/useRedux";
+import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
 
 import { Results } from "./Results";
-import CongratsCard from "../../../components/CongratsCard";
-import CongratsMessage from "../../../components/CongratsMessage";
-import { Button } from "../../../components/Button";
+import CongratsCard from "@components/CongratsCard";
+import CongratsMessage from "@components/CongratsMessage";
+import { Button } from "@components/Button";
 
-import createUnderField from "../../../services/createField";
-import { setGameConfig, setField, setTimerReset } from "../../../store/bombSlice";
-import { setIsGameEnd, openAroundCells, openCells, setCellState } from "../../../store/bombSlice";
-import { CoverState } from "../../../types";
+import createUnderField from "@src/services/createField";
+import { setGameConfig, setField, setTimerReset } from "@src/store/bombSlice";
+import {
+  setIsGameEnd,
+  openAroundCells,
+  openCells,
+  setCellState,
+} from "@src/store/bombSlice";
+import { CoverState } from "@src/types";
 
-import mrBomb_mascot from "../../../public/images/mrBomb.png";
-import { GRID_COLS, GRID_ROWS } from "../../../CONSTANTS";
+import mrBomb_mascot from "@src/public/images/mrBomb.png";
+import { GRID_COLS, GRID_ROWS } from "@src/CONSTANTS";
 
 export default function GameField() {
   const dispatch = useAppDispatch();
   const [isWin, setIsWin] = useState(false);
-  const { isGameEnd, field, gameConfig } = useAppSelector((state) => state.bomb);
+  const { isGameEnd, field, gameConfig } = useAppSelector(
+    (state) => state.bomb
+  );
   const { row, column, bombRate } = gameConfig;
 
   let openCount = 0;
@@ -34,7 +41,11 @@ export default function GameField() {
     dispatch(openCells([column, row]));
   }
 
-  function handleBothClick(e: React.MouseEvent<HTMLElement, MouseEvent>, column: number, row: number) {
+  function handleBothClick(
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    column: number,
+    row: number
+  ) {
     const clickType = e.buttons;
     const BOTH_CLICK = 3;
 
@@ -62,7 +73,9 @@ export default function GameField() {
 
   function handleReplay() {
     const underField = createUnderField(row, column, bombRate);
-    const coverField = Array(column).fill(Array(row).fill("covered")) as CoverState[][];
+    const coverField = Array(column).fill(
+      Array(row).fill("covered")
+    ) as CoverState[][];
 
     dispatch(setGameConfig({ row, column, bombRate }));
     dispatch(setField({ underField, coverField }));
@@ -88,7 +101,9 @@ export default function GameField() {
                     data-test="covered-button"
                     key={row + "-" + column}
                     onClick={() => handleLeftClick(column, row)}
-                    onContextMenu={() => dispatch(setCellState([row, column, "covered"]))}
+                    onContextMenu={() =>
+                      dispatch(setCellState([row, column, "covered"]))
+                    }
                     className="custom-closeButton"
                   ></button>
                 );
@@ -98,7 +113,9 @@ export default function GameField() {
                   <button
                     data-test="flag-button"
                     key={row + "-" + column}
-                    onContextMenu={() => dispatch(setCellState([row, column, "flag"]))}
+                    onContextMenu={() =>
+                      dispatch(setCellState([row, column, "flag"]))
+                    }
                     className="custom-closeButton"
                   >
                     🚩
@@ -110,7 +127,9 @@ export default function GameField() {
                   <button
                     data-test="question-button"
                     key={row + "-" + column}
-                    onContextMenu={() => dispatch(setCellState([row, column, "question"]))}
+                    onContextMenu={() =>
+                      dispatch(setCellState([row, column, "question"]))
+                    }
                     className="custom-closeButton"
                   >
                     ?
@@ -124,7 +143,9 @@ export default function GameField() {
                     onMouseDown={(e) => handleBothClick(e, column, row)}
                     className="custom-openButton"
                   >
-                    {field.underField[column][row] === "nonBomb" ? "" : field.underField[column][row]}
+                    {field.underField[column][row] === "nonBomb"
+                      ? ""
+                      : field.underField[column][row]}
                   </div>
                 );
             }

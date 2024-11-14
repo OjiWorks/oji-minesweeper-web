@@ -1,23 +1,32 @@
 "use client";
 
 import Lottie from "lottie-react";
-import explosion from "../../../assets/animation/explosion.json";
+import explosion from "@src/assets/animation/explosion.json";
 
-import { useAppSelector, useAppDispatch } from "../../../hooks/useRedux";
-import { Button } from "../../../components/Button";
+import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
+import { Button } from "@components/Button";
 
-import createUnderField from "../../../services/createField";
-import { setGameConfig, setField, setTimerReset, setIsGameEnd } from "../../../store/bombSlice";
-import { CoverState } from "../../../types";
+import createUnderField from "@src/services/createField";
+import {
+  setGameConfig,
+  setField,
+  setTimerReset,
+  setIsGameEnd,
+} from "@src/store/bombSlice";
+import { CoverState } from "@src/types";
 
 //FIXME: 이전에는 실패했을 때만 결과만 보여줬음, 공동 결과창으로 관리
 export function Results() {
   const dispatch = useAppDispatch();
-  const { row, column, bombRate } = useAppSelector((state) => state.bomb.gameConfig);
+  const { row, column, bombRate } = useAppSelector(
+    (state) => state.bomb.gameConfig
+  );
 
   function handleReplay() {
     const underField = createUnderField(row, column, bombRate);
-    const coverField = Array(column).fill(Array(row).fill("covered")) as CoverState[][];
+    const coverField = Array(column).fill(
+      Array(row).fill("covered")
+    ) as CoverState[][];
 
     dispatch(setGameConfig({ row, column, bombRate }));
     dispatch(setField({ underField, coverField }));

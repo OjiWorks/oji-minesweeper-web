@@ -1,5 +1,5 @@
 import getAround from "./getAround";
-import { Field } from "../types";
+import { Field } from "@src/types";
 
 export function openCellRecursive(field: Field, column: number, row: number) {
   if (
@@ -17,7 +17,10 @@ export function openCellRecursive(field: Field, column: number, row: number) {
     aroundArray.forEach((neighbor) => {
       const [nCol, nRow] = neighbor;
 
-      if (field.coverField[nCol]?.[nRow] !== "open" && field.underField[nCol]?.[nRow] !== "bomb") {
+      if (
+        field.coverField[nCol]?.[nRow] !== "open" &&
+        field.underField[nCol]?.[nRow] !== "bomb"
+      ) {
         openCellRecursive(field, nCol, nRow);
       }
     });

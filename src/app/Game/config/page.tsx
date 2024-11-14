@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useAppDispatch } from "../../../hooks/useRedux";
+import { useAppDispatch } from "@src/hooks/useRedux";
 import { useRouter } from "next/navigation";
 
-import { Button } from "../../../components/Button";
+import { Button } from "@components/Button";
 
-import createUnderField from "../../../services/createField";
-import { setField, setGameConfig } from "../../../store/bombSlice";
-import { CoverState, bombRate, GameConfig, GameMode } from "../../../types";
+import createUnderField from "@src/services/createField";
+import { setField, setGameConfig } from "@src/store/bombSlice";
+import { CoverState, bombRate, GameConfig, GameMode } from "@src/types";
 
 import logo from "../../../../public/images/logo.png";
 
@@ -27,8 +27,14 @@ export function Config() {
       bombRate: bombRate[(form[2] as HTMLInputElement).value],
     };
     //NOTE: corverField type = any or CoverState[][]?
-    const underField = createUnderField(gameSetting.row, gameSetting.column, gameSetting.bombRate);
-    const coverField = Array(gameSetting.column).fill(gameSetting.row).fill("covered") as CoverState[][];
+    const underField = createUnderField(
+      gameSetting.row,
+      gameSetting.column,
+      gameSetting.bombRate
+    );
+    const coverField = Array(gameSetting.column)
+      .fill(gameSetting.row)
+      .fill("covered") as CoverState[][];
 
     dispatch(setGameConfig(gameSetting));
     dispatch(setField({ underField, coverField }));
@@ -43,16 +49,33 @@ export function Config() {
           <Button text="챌린지 모드" onClick={() => setPlayMode("Challenge")} />
         </div>
         {playMode === "single" ? (
-          <form onSubmit={handleGameStart} className="flex flex-col items-center">
+          <form
+            onSubmit={handleGameStart}
+            className="flex flex-col items-center"
+          >
             <div className="my-3">
               <span className="p-1">
                 <label className="mr-2">가로</label>
-                <input min="9" max="30" defaultValue="9" type="number" className="text-center w-9 h-6 py-4" required />
+                <input
+                  min="9"
+                  max="30"
+                  defaultValue="9"
+                  type="number"
+                  className="text-center w-9 h-6 py-4"
+                  required
+                />
                 칸
               </span>
               <span className="p-1">
                 <label className="mr-2">세로</label>
-                <input min="9" max="30" defaultValue="9" type="number" className="text-center w-9 h-6 py-4" required />
+                <input
+                  min="9"
+                  max="30"
+                  defaultValue="9"
+                  type="number"
+                  className="text-center w-9 h-6 py-4"
+                  required
+                />
                 칸
               </span>
             </div>
@@ -64,7 +87,11 @@ export function Config() {
                 <option>고급</option>
               </select>
             </div>
-            <Button text={"게임시작"} testId={"start-button"} onClick={() => router.push("/user")} />
+            <Button
+              text={"게임시작"}
+              testId={"start-button"}
+              onClick={() => router.push("/user")}
+            />
           </form>
         ) : (
           // TODO: 난이도별 맵 생성 요청함수 연결

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import initialState from "./initialState";
-import * as recursion from "../services/recursion";
-import { CoverState, Field, GameConfig } from "../types";
+import * as recursion from "@src/services/recursion";
+import { CoverState, Field, GameConfig } from "@src/types";
 
 export const bombSlice = createSlice({
   name: "bomb",
@@ -23,7 +23,10 @@ export const bombSlice = createSlice({
     setField: (state, action: PayloadAction<Field>) => {
       state.field = action.payload;
     },
-    setCellState: (state, action: PayloadAction<[number, number, CoverState]>) => {
+    setCellState: (
+      state,
+      action: PayloadAction<[number, number, CoverState]>
+    ) => {
       const [row, column, coverState] = action.payload;
       state.field.coverField[column][row] = coverState;
     },

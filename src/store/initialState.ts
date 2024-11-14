@@ -1,4 +1,4 @@
-import { BombRootState, BombRate } from "../types";
+import { BombRootState } from "@src/types";
 
 const initialState: BombRootState = {
   gameConfig: {

@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "../../../components/Button";
-import { TextInput } from "../../../components/TextInput";
+import { Button } from "@components/Button";
+import { TextInput } from "@components/TextInput";
 
-export function Login() {
+export default function Login() {
   return (
     <form className="flex flex-col items-center p-10">
       <TextInput label="이메일" placeholder="이메일을 입력하세요" />

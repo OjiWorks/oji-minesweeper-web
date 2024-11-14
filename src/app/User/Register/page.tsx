@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "../../../components/Button";
-import { TextInput } from "../../../components/TextInput";
+import { Button } from "@components/Button";
+import { TextInput } from "@components/TextInput";
 
-export function Register() {
+export default function Register() {
   return (
     <form className="flex flex-col items-center p-10">
       <div className="my-3">
