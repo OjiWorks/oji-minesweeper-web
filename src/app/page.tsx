@@ -1,17 +1,19 @@
 "use client";
 
-import React from "react";
-import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import { Provider } from "react-redux";
-import store from "../store";
+export default function Home() {
+  const router = useRouter();
 
-const App = dynamic(() => import("./app.tsx"), { ssr: false });
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
 
-export default function ClientOnly() {
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+    if (!accessToken) {
+      router.push("/user/login");
+    } else {
+      router.push("/game");
+    }
+  }, []);
+  return <div>BombYangGang</div>;
 }

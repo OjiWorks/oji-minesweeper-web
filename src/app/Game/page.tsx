@@ -2,6 +2,6 @@
 
 import { Config } from "./config/page";
 
-export function Game() {
+export default function Game() {
   return <Config />;
 }

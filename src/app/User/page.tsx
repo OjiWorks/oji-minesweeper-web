@@ -1,9 +1,9 @@
 "use client";
 
-import { Login } from "./login/page";
+import Login from "./login/page";
 import logo from "../../../public/images/logo.png";
 
-export function User() {
+export default function User() {
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
       <div className="flex flex-col justify-center items-center p-6 bg-orange-400 rounded-xl">
