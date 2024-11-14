@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../hooks/useRedux";
+import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
 
-import { setTimer } from "../../store/bombSlice";
+import { setTimer } from "@src/store/bombSlice";
 
 export default function Header() {
   const dispatch = useAppDispatch();
-  const { row, column, bombRate } = useAppSelector((state) => state.bomb.gameConfig);
+  const { row, column, bombRate } = useAppSelector(
+    (state) => state.bomb.gameConfig
+  );
   const { isGameEnd, timer, field } = useAppSelector((state) => state.bomb);
   const time = timer.timeCount;
   const coverField = field.coverField;

@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import confetti from "../../assets/animation/confetti.json";
+import confetti from "@src/assets/animation/confetti.json";
 
 export default function CongratsCard() {
   return (

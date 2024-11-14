@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@components/Button";
 
-import createUnderField from "@src/services/createField";
+import createUnderField from "@src/services/client/createField";
 import { setField, setGameConfig } from "@src/store/bombSlice";
 import { CoverState, bombRate, GameConfig, GameMode } from "@src/types";
 
 import logo from "../../../../public/images/logo.png";
 
-export function Config() {
+export default function Config() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [playMode, setPlayMode] = useState<GameMode>("single");

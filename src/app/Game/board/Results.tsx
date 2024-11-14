@@ -6,7 +6,7 @@ import explosion from "@src/assets/animation/explosion.json";
 import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
 import { Button } from "@components/Button";
 
-import createUnderField from "@src/services/createField";
+import createUnderField from "@src/services/client/createField";
 import {
   setGameConfig,
   setField,
@@ -16,7 +16,7 @@ import {
 import { CoverState } from "@src/types";
 
 //FIXME: 이전에는 실패했을 때만 결과만 보여줬음, 공동 결과창으로 관리
-export function Results() {
+export default function Results() {
   const dispatch = useAppDispatch();
   const { row, column, bombRate } = useAppSelector(
     (state) => state.bomb.gameConfig

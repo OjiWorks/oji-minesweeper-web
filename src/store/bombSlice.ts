@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import initialState from "./initialState";
-import * as recursion from "@src/services/recursion";
+import * as recursion from "@src/services/client/recursion";
 import { CoverState, Field, GameConfig } from "@src/types";
 
 export const bombSlice = createSlice({

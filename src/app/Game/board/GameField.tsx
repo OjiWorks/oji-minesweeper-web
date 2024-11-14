@@ -4,12 +4,12 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
 
-import { Results } from "./Results";
+import Results from "./Results";
 import CongratsCard from "@components/CongratsCard";
 import CongratsMessage from "@components/CongratsMessage";
 import { Button } from "@components/Button";
 
-import createUnderField from "@src/services/createField";
+import createUnderField from "@src/services/client/createField";
 import { setGameConfig, setField, setTimerReset } from "@src/store/bombSlice";
 import {
   setIsGameEnd,
