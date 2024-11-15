@@ -8,13 +8,9 @@ type ButtonProps = {
   testId?: string;
 };
 
-export function Button({ text, onClick = noop, testId }: ButtonProps) {
+export function Button({ text, onClick = noop, ...props }: ButtonProps) {
   return (
-    <button
-      data-test={testId}
-      className="custom-blackButton "
-      onClick={onClick}
-    >
+    <button className="custom-blackButton " onClick={onClick} {...props}>
       {text}
     </button>
   );
