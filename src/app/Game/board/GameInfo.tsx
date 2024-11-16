@@ -1,18 +1,16 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
+import { useAppSelector, useAppDispatch } from "@/src/hooks/useRedux";
 
-import { setTimer } from "@src/store/bombSlice";
+import { setTimer } from "@/src/store/bombSlice";
 
-export default function Header() {
+export default function GameInfo() {
   const dispatch = useAppDispatch();
-  const { row, column, bombRate } = useAppSelector(
-    (state) => state.bomb.gameConfig
-  );
+  const { row, column, difficulty } = useAppSelector((state) => state.bomb.gameConfig);
   const { isGameEnd, timer, field } = useAppSelector((state) => state.bomb);
   const time = timer.timeCount;
   const coverField = field.coverField;
-  let count = 0;
 
+  let count = 0;
   coverField?.forEach((x) =>
     x?.forEach((y) => {
       if (y === "flag") {
@@ -33,11 +31,10 @@ export default function Header() {
     return () => clearInterval(timeId);
   }, [time, isGameEnd]);
 
-  //TODO: 헤더를 재사용 ui로 뺄건지.
   return (
     <header className="flex md:flex-row flex-col justify-center items-center m-6">
       <div className="md:m-4 m-0 w-[250px] text-xl px-3 md:py-2 bg-amber-300 text-gray-900 rounded shadow">
-        폭탄수 : {Math.floor(row * column * bombRate)}
+        폭탄수 : {Math.floor(row * column * difficulty)}
       </div>
       <div className="md:m-4 w-[250px] text-xl px-3 md:py-2 bg-amber-400 text-gray-900 rounded shadow">
         깃발수 : {count}
