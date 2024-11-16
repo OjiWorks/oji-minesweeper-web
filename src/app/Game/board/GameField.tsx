@@ -1,37 +1,45 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "@src/hooks/useRedux";
+import { useAppSelector, useAppDispatch } from "@/src/hooks/useRedux";
 
 import Results from "./Results";
 import CongratsCard from "@components/CongratsCard";
 import CongratsMessage from "@components/CongratsMessage";
-import { Button } from "@components/Button";
-
-import createUnderField from "@src/services/client/createField";
-import { setGameConfig, setField, setTimerReset } from "@src/store/bombSlice";
-import { setIsGameEnd, openAroundCells, openCells, setCellState } from "@src/store/bombSlice";
-import { CoverState } from "@src/types";
+import { setIsGameEnd, setIsUserWin, openAroundCells, openCells, setCellState } from "@/src/store/bombSlice";
 
 import mrBomb_mascot from "@/public/images/mrBomb.png";
-import { GRID_COLS, GRID_ROWS } from "@src/CONSTANTS";
+import { GRID_COLS, GRID_ROWS } from "@/src/CONSTANTS";
+import { useMemo } from "react";
 
 export default function GameField() {
   const dispatch = useAppDispatch();
-  const [isWin, setIsWin] = useState(false);
-  const { isGameEnd, field, gameConfig } = useAppSelector((state) => state.bomb);
-  const { row, column, bombRate } = gameConfig;
+  const { gameConfig, field, isGameEnd, isUserWin } = useAppSelector((state) => state.bomb);
+  const { row, column, difficulty } = gameConfig;
 
-  let openCount = 0;
-  const bombCount = Math.floor(row * column * bombRate);
+  const bombCount = Math.floor(row * column * difficulty);
+  const openCount = useMemo(() => {
+    let count = 0;
+
+    field.coverField?.forEach((columns) =>
+      columns?.forEach((row) => {
+        if (row === "open") count++;
+      })
+    );
+    return count;
+  }, [field.coverField]);
+
+  const isWin = useMemo(() => bombCount === row * column - openCount, [row, column, openCount, bombCount]);
 
   function handleLeftClick(column: number, row: number) {
     if (field.underField[column][row] === "bomb") {
       dispatch(setIsGameEnd(true));
+      return;
     }
 
-    dispatch(openCells([column, row]));
+    if (field.coverField[column][row] !== "open") {
+      dispatch(openCells([column, row]));
+    }
   }
 
   function handleBothClick(e: React.MouseEvent, column: number, row: number) {
@@ -44,32 +52,8 @@ export default function GameField() {
     }
   }
 
-  useEffect(() => {
-    field.coverField?.forEach((columns) =>
-      columns?.forEach((row) => {
-        if (row === "open") openCount++;
-      })
-    );
-
-    if (bombCount === row * column - openCount) {
-      setIsWin(true);
-    }
-
-    if (isWin) {
-      dispatch(setIsGameEnd(true));
-    }
-  });
-
-  function handleReplay() {
-    const underField = createUnderField(row, column, bombRate);
-    const coverField = Array(column).fill(Array(row).fill("covered")) as CoverState[][];
-
-    dispatch(setGameConfig({ row, column, bombRate }));
-    dispatch(setField({ underField, coverField }));
-    dispatch(setIsGameEnd(false));
-    dispatch(setTimerReset());
-    setIsWin(false);
-  }
+  if (isWin) setIsUserWin(true);
+  if (isUserWin) dispatch(setIsGameEnd(true));
 
   return (
     <div className="relative">
@@ -88,7 +72,9 @@ export default function GameField() {
                     data-test="covered-button"
                     key={row + "-" + column}
                     onClick={() => handleLeftClick(column, row)}
-                    onContextMenu={() => dispatch(setCellState([row, column, "covered"]))}
+                    onContextMenu={() => {
+                      dispatch(setCellState([row, column, "flag"]));
+                    }}
                     className="custom-closeButton"
                   ></button>
                 );
@@ -98,7 +84,9 @@ export default function GameField() {
                   <button
                     data-test="flag-button"
                     key={row + "-" + column}
-                    onContextMenu={() => dispatch(setCellState([row, column, "flag"]))}
+                    onContextMenu={() => {
+                      dispatch(setCellState([row, column, "question"]));
+                    }}
                     className="custom-closeButton"
                   >
                     🚩
@@ -110,7 +98,7 @@ export default function GameField() {
                   <button
                     data-test="question-button"
                     key={row + "-" + column}
-                    onContextMenu={() => dispatch(setCellState([row, column, "question"]))}
+                    onContextMenu={() => dispatch(setCellState([row, column, "covered"]))}
                     className="custom-closeButton"
                   >
                     ?
@@ -124,27 +112,21 @@ export default function GameField() {
                     onMouseDown={(e) => handleBothClick(e, column, row)}
                     className="custom-openButton"
                   >
-                    {field.underField[column][row] === "nonBomb" ? "" : field.underField[column][row]}
+                    {field.underField[column][row] !== "bomb" ? field.underField[column][row] : ""}
                   </div>
                 );
             }
           });
         })}
       </main>
-      {!isWin && isGameEnd && createPortal(<Results />, document.body)}
+      {!isUserWin && isGameEnd && createPortal(<Results />, document.body)}
       <img
         src={mrBomb_mascot.src}
         width="200px"
         className="absolute -top-[130px] md:top-auto md:bottom-0 -right-20 md:-right-[200px] z-15"
       />
-      {/* TODO: 관심사 분리하기. 현재 셀 컴포넌트에서 네비게이션 동작을 진행함 */}
-      {isWin && createPortal(<CongratsCard />, document.body)}
-      <div className="absolute transform md:-translate-y-1/2 translate-x-0 md:top-1/2 md:-left-[80px] left-0 md:mt-0 mt-2 flex flex-col">
-        <Button text={"다시하기"} onClick={() => handleReplay()} />
-        {/* FIXME: 메인으로 이동하기 라우터 연결하기 */}
-        <Button text={"메인으로"} onClick={() => location.reload()} />
-      </div>
-      {isWin ? <CongratsMessage /> : null}
+      {isUserWin && createPortal(<CongratsCard />, document.body)}
+      {isUserWin ? <CongratsMessage /> : null}
     </div>
   );
 }
