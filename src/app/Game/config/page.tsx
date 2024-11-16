@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useAppDispatch } from "@src/hooks/useRedux";
+import { useAppDispatch } from "@/src/hooks/useRedux";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@components/Button";
+import Button from "@components/Button";
 
-import createUnderField from "@src/services/client/createField";
-import { setField, setGameConfig } from "@src/store/bombSlice";
-import { CoverState, bombRate, GameConfig, GameMode } from "@src/types";
+import { setField, setGameConfig } from "@/src/store/bombSlice";
+import { GameMode } from "@/src/types";
 
 import logo from "@/public/images/logo.png";
+import extractGameConfig from "@/src/services/client/extractGameConfig";
+import initializeFields from "@/src/services/client/initializeFields";
 
 export default function Config() {
   const router = useRouter();
@@ -21,17 +22,13 @@ export default function Config() {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
-    const gameSetting: GameConfig = {
-      row: +(form[0] as HTMLInputElement).value,
-      column: +(form[1] as HTMLInputElement).value,
-      bombRate: bombRate[(form[2] as HTMLInputElement).value],
-    };
+    const gameConfig = extractGameConfig(form);
 
-    const underField = createUnderField(gameSetting.row, gameSetting.column, gameSetting.bombRate);
-    const coverField = Array(gameSetting.column).fill(Array(gameSetting.row).fill("covered")) as CoverState[][];
+    const { row, column, difficulty } = gameConfig;
+    const field = initializeFields(row, column, difficulty);
 
-    dispatch(setGameConfig(gameSetting));
-    dispatch(setField({ underField, coverField }));
+    dispatch(setGameConfig(gameConfig));
+    dispatch(setField(field));
 
     router.push("/game/board");
   }
