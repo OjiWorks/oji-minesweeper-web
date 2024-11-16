@@ -14,7 +14,7 @@ import { setGameConfig, setField, setTimerReset } from "@src/store/bombSlice";
 import { setIsGameEnd, openAroundCells, openCells, setCellState } from "@src/store/bombSlice";
 import { CoverState } from "@src/types";
 
-import mrBomb_mascot from "@src/public/images/mrBomb.png";
+import mrBomb_mascot from "@/public/images/mrBomb.png";
 import { GRID_COLS, GRID_ROWS } from "@src/CONSTANTS";
 
 export default function GameField() {

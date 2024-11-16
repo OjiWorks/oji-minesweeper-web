@@ -10,17 +10,17 @@ import createUnderField from "@src/services/client/createField";
 import { setField, setGameConfig } from "@src/store/bombSlice";
 import { CoverState, bombRate, GameConfig, GameMode } from "@src/types";
 
-import logo from "../../../../public/images/logo.png";
+import logo from "@/public/images/logo.png";
 
 export default function Config() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [playMode, setPlayMode] = useState<GameMode>("single");
 
-  function handleGameStart(e: React.FormEvent) {
+  function handleGameStart(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
 
+    const form = e.target as HTMLFormElement;
     const gameSetting: GameConfig = {
       row: +(form[0] as HTMLInputElement).value,
       column: +(form[1] as HTMLInputElement).value,
@@ -32,7 +32,8 @@ export default function Config() {
 
     dispatch(setGameConfig(gameSetting));
     dispatch(setField({ underField, coverField }));
-    () => router.push("/user");
+
+    router.push("/game/board");
   }
 
   return (
@@ -65,7 +66,7 @@ export default function Config() {
                 <option>고급</option>
               </select>
             </div>
-            <Button text={"게임시작"} onClick={handleGameStart} data-test={"start-button"} />
+            <Button text={"게임시작"} data-test={"start-button"} />
           </form>
         ) : (
           // TODO: 난이도별 맵 생성 요청함수 연결
