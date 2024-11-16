@@ -1,16 +1,12 @@
 "use client";
 
-function noop(): void {}
-
-type ButtonProps = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
-  onClick?: () => void;
-  testId?: string;
-};
+}
 
-export function Button({ text, onClick = noop, ...props }: ButtonProps) {
+export function Button({ text, ...props }: ButtonProps) {
   return (
-    <button className="custom-blackButton " onClick={onClick} {...props}>
+    <button className="custom-blackButton" {...props}>
       {text}
     </button>
   );
