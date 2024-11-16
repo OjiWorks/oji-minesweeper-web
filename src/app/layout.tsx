@@ -2,7 +2,7 @@
 
 import { Provider } from "react-redux";
 
-import store from "@src/store";
+import store from "@/src/store";
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

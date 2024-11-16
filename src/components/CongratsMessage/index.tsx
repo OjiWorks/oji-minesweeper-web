@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppSelector } from "@src/hooks/useRedux";
+import { useAppSelector } from "@/src/hooks/useRedux";
 
 export default function CongratsMessage() {
   const timeCount = useAppSelector((state) => state.bomb.timer.timeCount);
