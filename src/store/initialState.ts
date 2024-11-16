@@ -1,10 +1,10 @@
-import { BombRootState } from "@src/types";
+import { BombRootState } from "@/src/types/store";
 
 const initialState: BombRootState = {
   gameConfig: {
     row: 0,
     column: 0,
-    bombRate: 0.12,
+    difficulty: 0.12,
   },
   field: {
     coverField: [],
@@ -15,6 +15,7 @@ const initialState: BombRootState = {
     timeCount: 0,
   },
   isGameEnd: false,
+  isUserWin: false,
 };
 
 export default initialState;
