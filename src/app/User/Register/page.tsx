@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+
 import Button from "@components/Button";
-import { TextInput } from "@components/TextInput";
+import TextInput from "@components/TextInput";
+import BoxContainer from "@components/BoxContainer";
 
 import register from "./actions";
-import BoxContainer from "@/src/components/BoxContainer";
 import isValidated from "@/src/utils/isValidated";
 import isMatch from "@/src/utils/isMatch";
 

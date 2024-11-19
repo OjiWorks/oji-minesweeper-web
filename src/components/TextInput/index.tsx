@@ -6,7 +6,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder: string;
 }
 
-export function TextInput({ ref, label, placeholder, ...props }: InputProps) {
+export default function TextInput({
+  ref,
+  label,
+  placeholder,
+  ...props
+}: InputProps) {
   return (
     <div className="m-1">
       <label className="mr-2">{label}</label>
