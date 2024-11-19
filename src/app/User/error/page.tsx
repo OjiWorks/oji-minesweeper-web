@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import BoxContainer from "@/src/components/BoxContainer";
 
 export default function ErrorPage() {
   const searchParams = useSearchParams();
@@ -42,12 +43,10 @@ export default function ErrorPage() {
   }
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center">
-      <div className="flex flex-col justify-center items-center p-6 bg-orange-400 rounded-xl">
-        <div className="flex flex-col items-center justify-center p-6">
-          {renderError()}
-        </div>
+    <BoxContainer>
+      <div className="flex flex-col items-center justify-center p-6">
+        {renderError()}
       </div>
-    </div>
+    </BoxContainer>
   );
 }
