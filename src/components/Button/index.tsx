@@ -6,7 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({ text, ...props }: ButtonProps) {
   return (
-    <button className="custom-blackButton" {...props}>
+    <button className="custom-blackButton m-1" {...props}>
       {text}
     </button>
   );
