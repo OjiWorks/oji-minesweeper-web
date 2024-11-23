@@ -47,4 +47,18 @@ describe("지뢰찾기 필드 생성", function () {
       expect(bomb).toBe(Math.floor(row * column * bombRate));
     }
   });
+
+  test("시드가 존재할 경우 같은 시드는 같은 필드를 반환해야 한다.", function () {
+    const fixture = [
+      { row: 30, column: 30, bombRate: 0.12, isoDate: "20240101" },
+      { row: 50, column: 50, bombRate: 0.12, isoDate: "20400101" },
+      { row: 100, column: 100, bombRate: 0.15, isoDate: "20241231" },
+    ];
+
+    for (const { row, column, bombRate, isoDate } of fixture) {
+      expect(createUnderField(row, column, bombRate, isoDate)).toStrictEqual(
+        createUnderField(row, column, bombRate, isoDate)
+      );
+    }
+  });
 });
