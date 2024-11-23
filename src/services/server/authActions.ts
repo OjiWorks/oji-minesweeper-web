@@ -73,3 +73,15 @@ export async function getUserName(user_id: string) {
 
   return username;
 }
+
+export async function getUserId() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  const userId = data.user?.id;
+
+  if (error) {
+    return error;
+  }
+
+  return userId;
+}
