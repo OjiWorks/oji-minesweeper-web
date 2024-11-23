@@ -17,7 +17,7 @@ export default function Register() {
   const [validateMessage, setValidateMessage] = useState<string | null>(null);
   const router = useRouter();
 
-  function handleSubmit() {
+  async function handleSubmit(formData: FormData) {
     if (!isValidatedPassword(password.current!.value)) {
       setValidateMessage(
         "비밀번호는 '영어소문자'와 '숫자'를 포함한 6글자 이상이어야 합니다."
@@ -30,7 +30,9 @@ export default function Register() {
       return;
     }
 
-    register;
+    if (validateMessage) setValidateMessage(null);
+    await register(formData);
+    router.push("/users/login");
   }
 
   return (
