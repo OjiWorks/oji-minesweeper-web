@@ -45,7 +45,7 @@ export default function Login() {
           <Button type="button" onClick={navigateToRegister} text="회원가입" />
           <Button
             type="button"
-            onClick={navigateToRegister}
+            onClick={navigateToGame}
             text="테스터 이용하기"
           />
         </div>
