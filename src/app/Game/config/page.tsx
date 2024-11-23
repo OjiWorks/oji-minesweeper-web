@@ -35,29 +35,46 @@ export default function Config() {
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
-      <div className="flex flex-col justify-center items-center p-6 bg-orange-400 rounded-xl">
+      <div className="flex flex-col justify-center items-center p-6 bg-orange-400 rounded-xl md:max-w-md">
         <img src={logo.src} className="my-4" />
         <div>
           <Button text="싱글 모드" onClick={() => setPlayMode("single")} />
           <Button text="챌린지 모드" onClick={() => setPlayMode("Challenge")} />
         </div>
         {playMode === "single" ? (
-          <form onSubmit={handleGameStart} className="flex flex-col items-center">
-            <div className="my-3">
-              <span className="p-1">
-                <label className="mr-2">가로</label>
-                <input min="9" max="30" defaultValue="9" type="number" className="text-center w-9 h-6 py-4" required />
+          <form
+            onSubmit={handleGameStart}
+            className="flex flex-col items-center p-4"
+          >
+            <div>
+              <span className="px-1">
+                <label>가로</label>
+                <input
+                  min="9"
+                  max="30"
+                  defaultValue="9"
+                  type="number"
+                  className="text-center rounded w-11 h-6 py-4 m-1"
+                  required
+                />
                 칸
               </span>
-              <span className="p-1">
-                <label className="mr-2">세로</label>
-                <input min="9" max="30" defaultValue="9" type="number" className="text-center w-9 h-6 py-4" required />
+              <span className="px-1">
+                <label>세로</label>
+                <input
+                  min="9"
+                  max="30"
+                  defaultValue="9"
+                  type="number"
+                  className="text-center rounded w-11 h-6 py-4 m-1"
+                  required
+                />
                 칸
               </span>
             </div>
             <div className="my-3">
-              <label className="mr-2">난이도</label>
-              <select className="py-2" required>
+              <label className="mr-1">난이도</label>
+              <select className="py-2 rounded" required>
                 <option>초급</option>
                 <option>중급</option>
                 <option>고급</option>
@@ -68,9 +85,16 @@ export default function Config() {
         ) : (
           // TODO: 난이도별 맵 생성 요청함수 연결
           <div>
-            <Button text="쉬움" />
-            <Button text="보통" />
-            <Button text="어려움" />
+            <div className="p-5 m-2 bg-orange-200 rounded">
+              <p className="text-sm font-sans">
+                챌린지 모드는 전 세계 유저들과 동일한 맵에서 24시간 동안
+                경쟁하는 모드입니다. 짧은 시간 안에 클리어할수록 높은 점수를
+                받을 수 있습니다. 지금 랭킹에 도전해 보세요! 🚀
+              </p>
+            </div>
+            <div className="flex justify-center p-2">
+              <Button text="도전하기" />
+            </div>
           </div>
         )}
       </div>
