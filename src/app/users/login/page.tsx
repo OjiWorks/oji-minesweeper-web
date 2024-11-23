@@ -6,13 +6,13 @@ import Button from "@components/Button";
 import BoxContainer from "@components/BoxContainer";
 import TextInput from "@components/TextInput";
 
-import login from "./actions";
+import { login } from "@/src/services/server/authActions";
 
 export default function Login() {
   const router = useRouter();
 
   function navigateToRegister() {
-    router.push("/user/register", { scroll: false });
+    router.push("/users/register", { scroll: false });
   }
 
   return (

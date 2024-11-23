@@ -14,7 +14,7 @@ export default function ErrorPage() {
           <>
             <h1 className="text-xl text-red-500">로그인 오류</h1>
             <p>아이디와 비밀번호를 확인해 주세요.</p>
-            <a href="/user/login" className="mt-4 text-blue-500">
+            <a href="/users/login" className="mt-4 text-blue-500">
               돌아가기
             </a>
           </>
@@ -24,7 +24,7 @@ export default function ErrorPage() {
           <>
             <h1 className="text-xl text-red-500">회원가입 오류</h1>
             <p>이미 등록된 이메일이거나 양식이 올바르지 않습니다.</p>
-            <a href="/user/register" className="mt-4 text-blue-500">
+            <a href="/users/register" className="mt-4 text-blue-500">
               돌아가기
             </a>
           </>

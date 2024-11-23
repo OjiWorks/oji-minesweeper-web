@@ -6,7 +6,7 @@ import Button from "@components/Button";
 import TextInput from "@components/TextInput";
 import BoxContainer from "@components/BoxContainer";
 
-import register from "./actions";
+import { register } from "@/src/services/server/authActions";
 import isValidated from "@/src/utils/isValidated";
 import isMatch from "@/src/utils/isMatch";
 
@@ -15,20 +15,25 @@ export default function Register() {
   const passwordConfirm = useRef<HTMLInputElement>(null);
   const [validateMessage, setValidateMessage] = useState<string | null>(null);
 
-  function handleSubmit() {
-    if (!isValidated(password.current!.value)) {
+  function handleSubmit(formData: FormData) {
+    if (!isValidated(formData.get("password") as string)) {
       setValidateMessage(
         "비밀번호는 '영어소문자'와 '특수문자'를 포함해야합니다."
       );
       return;
     }
 
-    if (!isMatch(password.current!.value, passwordConfirm.current!.value)) {
+    if (
+      !isMatch(
+        formData.get("password") as string,
+        formData.get("passwordConfirm") as string
+      )
+    ) {
       setValidateMessage("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    register;
+    register(formData);
   }
 
   return (
