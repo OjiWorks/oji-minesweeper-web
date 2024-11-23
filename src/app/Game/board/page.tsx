@@ -9,15 +9,18 @@ import { useRouter } from "next/navigation";
 export default function GameBoard() {
   const router = useRouter();
   const { field } = useAppSelector((state) => state.bomb);
-  if (!field.coverField.length && !field.underField.length) router.push("/game/config");
+  if (!field.coverField.length && !field.underField.length)
+    router.push("/game/config");
 
   return (
     <div className="flex">
       <div className="fixed inset-0 flex flex-col items-center justify-center overflow-x-auto select-none">
         <GameInfo />
-        <GameField />
+        <div className="flex">
+          <GameNavigation />
+          <GameField />
+        </div>
       </div>
-      <GameNavigation />
     </div>
   );
 }

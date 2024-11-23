@@ -3,7 +3,13 @@
 import { useAppDispatch, useAppSelector } from "@/src/hooks/useRedux";
 import Button from "@/src/components/Button";
 import initializeFields from "@/src/services/client/initializeFields";
-import { setField, setGameConfig, setIsGameEnd, setIsUserWin, setTimerReset } from "@/src/store/bombSlice";
+import {
+  setField,
+  setGameConfig,
+  setIsGameEnd,
+  setIsUserWin,
+  setTimerReset,
+} from "@/src/store/bombSlice";
 import { useRouter } from "next/navigation";
 
 export default function GameNavigation() {
@@ -26,7 +32,7 @@ export default function GameNavigation() {
   }
 
   return (
-    <div className="absolute transform md:-translate-y-1/2 translate-x-0 md:top-1/2 md:-left-[80px] left-0 md:mt-0 mt-2 flex flex-col">
+    <div className="flex flex-col">
       <Button text={"다시하기"} onClick={handleReplay} />
       <Button text={"메인으로"} onClick={() => router.push("/")} />
     </div>

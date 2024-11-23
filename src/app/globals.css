@@ -26,3 +26,7 @@
 .custom-blackButton {
   @apply h-10 px-4 font-semibold rounded-md bg-black hover:bg-red-900 text-white whitespace-nowrap;
 }
+
+.custom-whiteButton {
+  @apply h-auto px-4 font-semibold rounded-md bg-orange-100 hover:bg-red-900 text-black whitespace-nowrap;
+}

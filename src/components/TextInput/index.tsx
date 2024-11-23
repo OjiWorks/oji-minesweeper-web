@@ -13,12 +13,12 @@ export default function TextInput({
   ...props
 }: InputProps) {
   return (
-    <div className="m-1">
+    <div className="m-1 min-w-60">
       <label className="mr-2">{label}</label>
       <input
         ref={ref}
         placeholder={placeholder}
-        className="text-center"
+        className="py-1 px-2 rounded md:w-56"
         required
         {...props}
       />
