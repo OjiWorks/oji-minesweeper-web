@@ -17,7 +17,7 @@ export default function Home() {
       if (user) {
         router.push("/game");
       } else {
-        router.push("/user/login");
+        router.push("/users/login");
       }
     };
 

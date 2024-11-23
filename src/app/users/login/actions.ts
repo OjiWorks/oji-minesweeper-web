@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/src/utils/supabase/server";
 
-export default async function register(formData: FormData) {
+export default async function login(formData: FormData) {
   const supabase = await createClient();
 
   const userData = {
@@ -13,12 +13,12 @@ export default async function register(formData: FormData) {
     password: formData.get("password") as string,
   };
 
-  const { error } = await supabase.auth.signUp(userData);
+  const { error } = await supabase.auth.signInWithPassword(userData);
 
   if (error) {
-    redirect("/user/error?message=register");
+    redirect("/users/error?message=login");
   }
 
   revalidatePath("/", "layout");
-  redirect("/user/login");
+  redirect("/game");
 }
