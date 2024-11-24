@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { setUserId } from "@/src/store/bombSlice";
+import { useAppDispatch } from "@/src/hooks/useRedux";
 import { createClient } from "@/src/utils/supabase/server";
 
 export async function register(formData: FormData) {
@@ -31,17 +33,21 @@ export async function register(formData: FormData) {
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
+  const dispatch = useAppDispatch();
 
   const userData = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
 
-  const { error } = await supabase.auth.signInWithPassword(userData);
+  const { data, error } = await supabase.auth.signInWithPassword(userData);
 
   if (error) {
     redirect("/users/error?message=login");
   }
+
+  const userId = data.user.id;
+  dispatch(setUserId(userId));
 
   revalidatePath("/", "layout");
   redirect("/game");

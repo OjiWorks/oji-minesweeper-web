@@ -26,4 +26,5 @@ export interface BombRootState {
   timer: Timer;
   isGameEnd: boolean;
   isUserWin: boolean;
+  userId: string | null;
 }

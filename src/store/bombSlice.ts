@@ -27,7 +27,10 @@ export const bombSlice = createSlice({
     setField: (state, action: PayloadAction<Field>) => {
       state.field = action.payload;
     },
-    setCellState: (state, action: PayloadAction<[number, number, CoverState]>) => {
+    setCellState: (
+      state,
+      action: PayloadAction<[number, number, CoverState]>
+    ) => {
       const [row, column, coverState] = action.payload;
       state.field.coverField[column][row] = coverState;
     },
@@ -40,6 +43,9 @@ export const bombSlice = createSlice({
       const [column, row] = action.payload;
       const { coverField, underField } = state.field;
       openCellRecursive(coverField, underField, column, row);
+    },
+    setUserId: (state, action: PayloadAction<string>) => {
+      state.userId = action.payload;
     },
   },
 });
@@ -54,6 +60,7 @@ export const {
   setCellState,
   openCells,
   openAroundCells,
+  setUserId,
 } = bombSlice.actions;
 
 export default bombSlice.reducer;

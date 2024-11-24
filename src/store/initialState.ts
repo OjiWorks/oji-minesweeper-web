@@ -16,6 +16,7 @@ const initialState: BombRootState = {
   },
   isGameEnd: false,
   isUserWin: false,
+  userId: null,
 };
 
 export default initialState;
