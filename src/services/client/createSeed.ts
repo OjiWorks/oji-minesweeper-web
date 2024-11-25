@@ -1,5 +1,6 @@
 export default function createSeed(string: string) {
-  const replacedString = string.replace(/-/gi, "") as string;
+  const date = string.split("T")[0];
+  const replacedString = date.replace(/-/gi, "") as string;
   const max = 5757575757575757;
   let seedString = "";
 
