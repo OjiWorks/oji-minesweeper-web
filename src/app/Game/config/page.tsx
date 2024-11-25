@@ -7,24 +7,28 @@ import { setField, setGameMode, setGameConfig } from "@/src/store/bombSlice";
 import Button from "@components/Button";
 
 import logo from "@/public/images/logo.png";
-import extractGameConfig from "@/src/services/client/extractGameConfig";
 import initializeFields from "@/src/services/client/initializeFields";
 import { GameConfig } from "@/src/types/store";
+import { useState } from "react";
+import { BombRate } from "@/src/types";
 
 export default function Config() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { gameMode } = useAppSelector((state) => state.bomb);
+  const [singleModeConfig, setSingleModeConfig] = useState<GameConfig>({
+    row: 9,
+    column: 9,
+    difficulty: 0.12,
+  });
 
-  function handleGameStart(e: React.FormEvent<HTMLFormElement>) {
+  function handleGameStart(e: React.FormEvent) {
     e.preventDefault();
 
     if (gameMode === "single") {
-      const form = e.target as HTMLFormElement;
-      const gameConfig = extractGameConfig(form);
-      const field = initializeFields(gameConfig);
+      const field = initializeFields(singleModeConfig);
 
-      dispatch(setGameConfig(gameConfig));
+      dispatch(setGameConfig(singleModeConfig));
       dispatch(setField(field));
     }
     router.push("/game/board");
@@ -39,15 +43,15 @@ export default function Config() {
     const today = new Date();
     const seed = today.toISOString();
 
-    const gameConfig: GameConfig = {
+    const challengeModeConfig: GameConfig = {
       row: 10,
       column: 10,
       difficulty: 0.2,
       seed,
     };
-    const field = initializeFields(gameConfig);
+    const field = initializeFields(challengeModeConfig);
 
-    dispatch(setGameConfig(gameConfig));
+    dispatch(setGameConfig(challengeModeConfig));
     dispatch(setField(field));
 
     router.push("/game/board");
@@ -82,6 +86,13 @@ export default function Config() {
                   max="30"
                   defaultValue="9"
                   type="number"
+                  onChange={(e) => {
+                    const prev = singleModeConfig;
+                    setSingleModeConfig({
+                      ...prev,
+                      row: Number(e.target.value),
+                    });
+                  }}
                   className="text-center rounded w-11 h-6 py-4 m-1"
                   required
                 />
@@ -94,6 +105,13 @@ export default function Config() {
                   max="30"
                   defaultValue="9"
                   type="number"
+                  onChange={(e) => {
+                    const prev = singleModeConfig;
+                    setSingleModeConfig({
+                      ...prev,
+                      column: Number(e.target.value),
+                    });
+                  }}
                   className="text-center rounded w-11 h-6 py-4 m-1"
                   required
                 />
@@ -102,10 +120,20 @@ export default function Config() {
             </div>
             <div className="my-3">
               <label className="mr-1">난이도</label>
-              <select className="py-2 rounded" required>
-                <option>초급</option>
-                <option>중급</option>
-                <option>고급</option>
+              <select
+                className="py-2 rounded"
+                onChange={(e) => {
+                  const prev = singleModeConfig;
+                  setSingleModeConfig({
+                    ...prev,
+                    column: Number(e.target.value) as BombRate,
+                  });
+                }}
+                required
+              >
+                <option value={0.12}>초급</option>
+                <option value={0.15}>중급</option>
+                <option value={0.2}>고급</option>
               </select>
             </div>
             <Button text={"게임시작"} data-test={"start-button"} />
