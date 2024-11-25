@@ -16,7 +16,6 @@ const initialState: BombRootState = {
     timeCount: 0,
   },
   isGameEnd: false,
-  isUserWin: false,
   userId: null,
 };
 

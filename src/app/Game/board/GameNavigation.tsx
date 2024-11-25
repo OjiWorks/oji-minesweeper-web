@@ -7,7 +7,6 @@ import {
   setField,
   setGameConfig,
   setIsGameEnd,
-  setIsUserWin,
   setTimerReset,
 } from "@/src/store/bombSlice";
 import { useRouter } from "next/navigation";
@@ -17,18 +16,14 @@ export default function GameNavigation() {
   const dispatch = useAppDispatch();
 
   const { gameConfig } = useAppSelector((state) => state.bomb);
-  const { row, column, difficulty } = gameConfig;
 
   function handleReplay() {
-    const field = initializeFields(row, column, difficulty);
+    const field = initializeFields(gameConfig);
 
-    dispatch(setGameConfig({ row, column, difficulty }));
+    dispatch(setGameConfig(gameConfig));
     dispatch(setField(field));
     dispatch(setIsGameEnd(false));
     dispatch(setTimerReset());
-    setIsUserWin(false);
-
-    router.push("/game/board");
   }
 
   return (
