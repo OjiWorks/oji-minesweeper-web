@@ -24,9 +24,6 @@ export const bombSlice = createSlice({
     setIsGameEnd: (state, action: PayloadAction<boolean>) => {
       state.isGameEnd = action.payload;
     },
-    setIsUserWin: (state, action: PayloadAction<boolean>) => {
-      state.isUserWin = action.payload;
-    },
     setField: (state, action: PayloadAction<Field>) => {
       state.field = action.payload;
     },
@@ -59,7 +56,6 @@ export const {
   setTimerReset,
   setTimer,
   setIsGameEnd,
-  setIsUserWin,
   setField,
   setCellState,
   openCells,
