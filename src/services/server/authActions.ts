@@ -18,10 +18,8 @@ export async function register(formData: FormData) {
 
   const { data, error } = await supabase.auth.signUp(userData);
   const userId = data.user?.id as string;
-  console.log(userId);
 
   const registerError = await insertUser(userId, username);
-  console.log(registerError);
 
   if (error || registerError) {
     redirect("/users/error?message=register");

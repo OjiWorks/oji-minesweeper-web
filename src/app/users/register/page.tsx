@@ -37,7 +37,7 @@ export default function Register() {
 
     if (validateMessage) setValidateMessage(null);
     await register(formData);
-    router.push("/users/login");
+    // router.push("/users/login"); //FIXME: 중복
   }
 
   return (
