@@ -19,7 +19,7 @@ export default function createUnderField(
   const totalBombState: UnderState[] = [...bombs, ...nonBombs];
 
   if (isoDate) {
-    totalBombState.sort(() => createSeed(isoDate) - 0.5);
+    totalBombState.sort(() => Math.random() - createSeed(isoDate));
   } else {
     totalBombState.sort(() => Math.random() - 0.5);
   }
