@@ -1,31 +1,51 @@
 "use client";
 
-import { useState } from "react";
-import { useAppDispatch } from "@/src/hooks/useRedux";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/src/hooks/useRedux";
+import { setField, setGameMode, setGameConfig } from "@/src/store/bombSlice";
 
 import Button from "@components/Button";
-
-import { setField, setGameConfig } from "@/src/store/bombSlice";
-import { GameMode } from "@/src/types";
 
 import logo from "@/public/images/logo.png";
 import extractGameConfig from "@/src/services/client/extractGameConfig";
 import initializeFields from "@/src/services/client/initializeFields";
+import { GameConfig } from "@/src/types/store";
 
 export default function Config() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [playMode, setPlayMode] = useState<GameMode>("single");
+  const { gameMode } = useAppSelector((state) => state.bomb);
 
   function handleGameStart(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const form = e.target as HTMLFormElement;
-    const gameConfig = extractGameConfig(form);
+    if (gameMode === "single") {
+      const form = e.target as HTMLFormElement;
+      const gameConfig = extractGameConfig(form);
+      const field = initializeFields(gameConfig);
 
-    const { row, column, difficulty } = gameConfig;
-    const field = initializeFields(row, column, difficulty);
+      dispatch(setGameConfig(gameConfig));
+      dispatch(setField(field));
+    }
+    router.push("/game/board");
+  }
+
+  function handleChallengeStart() {
+    if (gameMode !== "challenge") {
+      console.error("게임 모드가 챌린지 모드가 아닙니다.");
+      return;
+    }
+
+    const today = new Date();
+    const seed = today.toISOString();
+
+    const gameConfig: GameConfig = {
+      row: 10,
+      column: 10,
+      difficulty: 0.2,
+      seed,
+    };
+    const field = initializeFields(gameConfig);
 
     dispatch(setGameConfig(gameConfig));
     dispatch(setField(field));
@@ -38,10 +58,18 @@ export default function Config() {
       <div className="flex flex-col justify-center items-center p-6 bg-orange-400 rounded-xl md:max-w-md">
         <img src={logo.src} className="my-4" />
         <div>
-          <Button text="싱글 모드" onClick={() => setPlayMode("single")} />
-          <Button text="챌린지 모드" onClick={() => setPlayMode("Challenge")} />
+          <Button
+            text="싱글 모드"
+            onClick={() => dispatch(setGameMode("single"))}
+          />
+          <Button
+            text="챌린지 모드"
+            onClick={() => {
+              dispatch(setGameMode("challenge"));
+            }}
+          />
         </div>
-        {playMode === "single" ? (
+        {gameMode === "single" ? (
           <form
             onSubmit={handleGameStart}
             className="flex flex-col items-center p-4"
@@ -83,7 +111,6 @@ export default function Config() {
             <Button text={"게임시작"} data-test={"start-button"} />
           </form>
         ) : (
-          // TODO: 난이도별 맵 생성 요청함수 연결
           <div>
             <div className="p-5 m-2 bg-orange-200 rounded">
               <p className="text-sm font-sans">
@@ -93,7 +120,7 @@ export default function Config() {
               </p>
             </div>
             <div className="flex justify-center p-2">
-              <Button text="도전하기" />
+              <Button text="도전하기" onClick={handleChallengeStart} />
             </div>
           </div>
         )}

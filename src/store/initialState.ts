@@ -1,6 +1,7 @@
 import { BombRootState } from "@/src/types/store";
 
 const initialState: BombRootState = {
+  gameMode: "single",
   gameConfig: {
     row: 0,
     column: 0,

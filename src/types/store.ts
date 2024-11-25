@@ -1,4 +1,4 @@
-import { CoverState, UnderState, BombRate } from ".";
+import { CoverState, UnderState, BombRate, GameMode } from ".";
 
 export interface BombRateTable {
   readonly [index: string]: BombRate;
@@ -8,6 +8,7 @@ export interface GameConfig {
   row: number;
   column: number;
   difficulty: BombRate;
+  seed?: string;
 }
 
 export interface Field {
@@ -21,6 +22,7 @@ export interface Timer {
 }
 
 export interface BombRootState {
+  gameMode: GameMode;
   gameConfig: GameConfig;
   field: Field;
   timer: Timer;

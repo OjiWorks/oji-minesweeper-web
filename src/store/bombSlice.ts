@@ -2,13 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import initialState from "./initialState";
 import openCellRecursive from "@/src/services/client/openCellRecursive";
-import { CoverState } from "@/src/types";
+import { CoverState, GameMode } from "@/src/types";
 import { Field, GameConfig } from "../types/store";
 
 export const bombSlice = createSlice({
   name: "bomb",
   initialState,
   reducers: {
+    setGameMode: (state, action: PayloadAction<GameMode>) => {
+      state.gameMode = action.payload;
+    },
     setGameConfig: (state, action: PayloadAction<GameConfig>) => {
       state.gameConfig = action.payload;
     },
@@ -51,6 +54,7 @@ export const bombSlice = createSlice({
 });
 
 export const {
+  setGameMode,
   setGameConfig,
   setTimerReset,
   setTimer,
