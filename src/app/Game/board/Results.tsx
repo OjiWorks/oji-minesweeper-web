@@ -41,7 +41,7 @@ export default function Results() {
       <Button
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30"
         text={"다시하기"}
-        onClick={() => handleReplay()}
+        onClick={handleReplay}
       />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-90">
         <Lottie animationData={explosion} loop={false} />

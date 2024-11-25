@@ -12,11 +12,11 @@ export default function Login() {
   const router = useRouter();
 
   function navigateToRegister() {
-    router.push("/users/register", { scroll: false });
+    router.push("/users/register");
   }
 
   function navigateToGame() {
-    router.push("/game", { scroll: false });
+    router.push("/game");
   }
 
   return (
