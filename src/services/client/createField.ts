@@ -1,12 +1,10 @@
 import getAround from "./getAround";
 import { UnderState, BombCount } from "@/src/types";
-import createSeed from "./createSeed";
 
 export default function createUnderField(
   rowCount = 9,
   columnCount = 9,
-  difficulty = 0.05,
-  isoDate?: string
+  difficulty = 0.05
 ) {
   const field = [];
   const initialBombCount = 0;
@@ -17,12 +15,7 @@ export default function createUnderField(
     rowCount * columnCount - bombCount
   ).fill(initialBombCount);
   const totalBombState: UnderState[] = [...bombs, ...nonBombs];
-
-  if (isoDate) {
-    totalBombState.sort(() => Math.random() - createSeed(isoDate));
-  } else {
-    totalBombState.sort(() => Math.random() - 0.5);
-  }
+  totalBombState.sort(() => Math.random() - 0.5);
 
   while (totalBombState.length > 0) {
     const row = totalBombState.splice(0, rowCount);
