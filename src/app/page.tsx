@@ -15,9 +15,9 @@ export default function Home() {
       } = await supabase.auth.getUser();
 
       if (user) {
-        router.push("/game");
+        router.push("/game", { scroll: false });
       } else {
-        router.push("/users/login");
+        router.push("/users/login", { scroll: false });
       }
     };
 
