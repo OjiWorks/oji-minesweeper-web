@@ -18,19 +18,6 @@ export async function getSortedDailyScores(count: number) {
   return data;
 }
 
-export async function insertDailyScore(user_id: string, new_score: number) {
-  const supabase = await createClient();
-
-  const { error } = await supabase.rpc("update_daily_score", {
-    user_id,
-    new_score,
-  });
-
-  if (error) {
-    return error;
-  }
-}
-
 export async function getSortedTotalScores(column: string, count: number) {
   const supabase = await createClient();
 
