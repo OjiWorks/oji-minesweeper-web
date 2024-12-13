@@ -18,13 +18,13 @@ export async function getSortedDailyScores(count: number) {
   return data;
 }
 
-export async function getSortedTotalScores(column: string, count: number) {
+export async function getSortedTotalScores(count: number) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("total_score")
-    .select(column)
-    .order(column, { ascending: true })
+    .select("total_score")
+    .order("total_score", { ascending: true })
     .limit(count);
 
   if (error) {
