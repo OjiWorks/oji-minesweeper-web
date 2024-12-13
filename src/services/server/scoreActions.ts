@@ -7,7 +7,14 @@ export async function getSortedDailyScores(count: number) {
 
   const { data, error } = await supabase
     .from("daily_score")
-    .select("daily_score")
+    .select(
+      `
+    daily_score,
+    user (
+      username
+      )
+      `
+    )
     .order("daily_score", { ascending: true })
     .limit(count);
 
@@ -23,7 +30,14 @@ export async function getSortedTotalScores(count: number) {
 
   const { data, error } = await supabase
     .from("total_score")
-    .select("total_score")
+    .select(
+      `
+    total_score,
+    user (
+      username
+      )
+      `
+    )
     .order("total_score", { ascending: true })
     .limit(count);
 
