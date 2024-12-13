@@ -2,6 +2,8 @@
 
 import { createClient } from "@/src/utils/supabase/server";
 
+import mapUserToUsername from "@/src/utils/mapUserToUsername";
+
 export async function getSortedDailyScores(count: number) {
   const supabase = await createClient();
 
@@ -22,7 +24,21 @@ export async function getSortedDailyScores(count: number) {
     return error;
   }
 
-  return data;
+  function isValidData(
+    items: typeof data
+  ): items is { daily_score: number; user: { username: string } }[] {
+    if (!items) {
+      return false;
+    }
+
+    return items.every((data) => {
+      data.user && data.daily_score && data.user.username;
+    });
+  }
+
+  if (isValidData(data)) {
+    return mapUserToUsername(data);
+  }
 }
 
 export async function getSortedTotalScores(count: number) {
@@ -45,5 +61,19 @@ export async function getSortedTotalScores(count: number) {
     return error;
   }
 
-  return data;
+  function isValidData(
+    items: typeof data
+  ): items is { total_score: number; user: { username: string } }[] {
+    if (!items) {
+      return false;
+    }
+
+    return items.every((data) => {
+      data.user && data.total_score && data.user.username;
+    });
+  }
+
+  if (isValidData(data)) {
+    return mapUserToUsername(data);
+  }
 }
