@@ -3,7 +3,7 @@
 import { createPortal } from "react-dom";
 import { useAppSelector, useAppDispatch } from "@/src/hooks/useRedux";
 
-import Results from "./Results";
+import Fail from "./Fail";
 import CongratsCard from "@components/CongratsCard";
 import CongratsMessage from "@components/CongratsMessage";
 import {
@@ -16,7 +16,7 @@ import {
 import mrBomb_mascot from "@/public/images/mrBomb.png";
 import { GRID_COLS, GRID_ROWS } from "@/src/CONSTANTS";
 import { useMemo } from "react";
-import { insertDailyScore } from "@/src/services/server/scoreActions";
+import { insertDailyScore } from "@/src/services/client/insertDailyScore";
 import { useRouter } from "next/navigation";
 
 export default function GameField() {
@@ -142,7 +142,7 @@ export default function GameField() {
           });
         })}
       </main>
-      {!isWin && isGameEnd && createPortal(<Results />, document.body)}
+      {!isWin && isGameEnd && createPortal(<Fail />, document.body)}
       <img
         src={mrBomb_mascot.src}
         width="200px"
