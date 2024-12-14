@@ -11,6 +11,8 @@ import initializeFields from "@/src/services/client/initializeFields";
 import { GameConfig } from "@/src/types/store";
 import { useState } from "react";
 import { BombRate } from "@/src/types";
+import { getDailyField } from "@/src/services/server/fieldActions";
+import { CoverState } from "@/src/types";
 
 export default function Config() {
   const router = useRouter();
@@ -34,27 +36,34 @@ export default function Config() {
     router.push("/game/board");
   }
 
-  function handleChallengeStart() {
+  async function handleChallengeStart() {
     if (gameMode !== "challenge") {
       console.error("게임 모드가 챌린지 모드가 아닙니다.");
       return;
     }
 
-    const today = new Date();
-    const seed = today.toISOString();
-
     const challengeModeConfig: GameConfig = {
       row: 10,
       column: 10,
       difficulty: 0.2,
-      seed,
     };
-    const field = initializeFields(challengeModeConfig);
+    const underField = await getDailyField();
+    const coverField = Array(challengeModeConfig.column).fill(
+      Array(challengeModeConfig.row).fill("covered")
+    ) as CoverState[][];
 
-    dispatch(setGameConfig(challengeModeConfig));
-    dispatch(setField(field));
+    if (Array.isArray(underField)) {
+      const field = { underField, coverField };
 
-    router.push("/game/board");
+      dispatch(setGameConfig(challengeModeConfig));
+      dispatch(setField(field));
+
+      router.push("/game/board");
+    }
+
+    if (underField instanceof Error) {
+      alert("에러가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
   }
 
   return (
