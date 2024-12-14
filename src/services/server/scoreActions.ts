@@ -39,9 +39,9 @@ export async function getSortedDailyScores(
       return false;
     }
 
-    return items.every((data) => {
-      data.user && data.daily_score && data.user.username;
-    });
+    return items.every(
+      (data) => data.user && data.daily_score && data.user.username
+    );
   }
 
   if (isValidData(data)) {
@@ -78,9 +78,9 @@ export async function getSortedTotalScores(
       return false;
     }
 
-    return items.every((data) => {
-      data.user && data.total_score && data.user.username;
-    });
+    return items.every(
+      (data) => data.user && data.total_score && data.user.username
+    );
   }
 
   if (isValidData(data)) {
