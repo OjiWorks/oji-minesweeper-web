@@ -1,10 +1,18 @@
 "use server";
 
-import { createClient } from "@/src/utils/supabase/server";
+import { PostgrestError } from "@supabase/supabase-js";
 
+import { createClient } from "@/src/utils/supabase/server";
 import mapUserToUsername from "@/src/utils/mapUserToUsername";
 
-export async function getSortedDailyScores(count: number) {
+import type { MappedDaily, MappedTotal } from "@/src/utils/mapUserToUsername";
+
+type DailyScoresSuccess = MappedDaily[] | undefined;
+type TotalScoreSuccess = MappedTotal[] | undefined;
+
+export async function getSortedDailyScores(
+  count: number
+): Promise<DailyScoresSuccess | PostgrestError> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -41,7 +49,9 @@ export async function getSortedDailyScores(count: number) {
   }
 }
 
-export async function getSortedTotalScores(count: number) {
+export async function getSortedTotalScores(
+  count: number
+): Promise<TotalScoreSuccess | PostgrestError> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
