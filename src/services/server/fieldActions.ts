@@ -28,7 +28,7 @@ export async function getDailyField() {
     return dailyField;
   }
 
-  const dailyField = data[0].field;
+  const dailyField = data[0].field as UnderState[][];
 
   return dailyField;
 }
