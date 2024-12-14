@@ -8,7 +8,6 @@ export interface GameConfig {
   row: number;
   column: number;
   difficulty: BombRate;
-  seed?: string;
 }
 
 export interface Field {
